@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "fsm-item.h"
 
 #include <QGraphicsRectItem>
 
@@ -12,15 +13,20 @@ MainWindow::MainWindow(QWidget *parent) :
      ui_->graphicsView->setScene(&scene_);
 }
 
+int fsmItem::fsmNumber = 0;
 void MainWindow::on_addFsmButt_clicked()
 {
-     QGraphicsRectItem* currRect = scene_.addRect(QRectF(-30, -30, 120, 80), QPen(Qt::black));
-     currRect->setFlags(QGraphicsItem::ItemIsMovable);
+     fsmItem* fsm = new fsmItem;
+     fsm->setFlags(QGraphicsItem::ItemIsMovable);
+     scene_.addItem(fsm);
 }
 
 void MainWindow::on_addLinkButt_clicked()
 {
-     QGraphicsLineItem* currLine = scene_.addLine(QLineF(-10, -10, -80, -80), QPen(Qt::black, 3));
+     QGraphicsLineItem* currLine = scene_.addLine(QLineF(0, 0, 80, 0), QPen(Qt::black, 3));
+     QGraphicsSimpleTextItem* linkName = scene_.addSimpleText("A"); ///@todo каждый раз новая буква
+     linkName->setParentItem(currLine);
+     linkName->setPos(40, 5);
      currLine->setFlags(QGraphicsItem::ItemIsMovable);
 }
 
