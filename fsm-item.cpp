@@ -2,7 +2,7 @@
 
 fsmItem::fsmItem()
 {
-     fsmNumber++;
+     number_ = ++fsmNumber;
 }
 
 QRectF fsmItem::boundingRect() const
@@ -19,7 +19,7 @@ void fsmItem::paint(QPainter* painter,
     painter->save();
     painter->setPen(QPen(Qt::black, penWidth));
     painter->drawRect(0, 0, 120, 80);
-    painter->drawText(55, 35, QString::number(fsmNumber));
+    painter->drawText(55, 35, QString::number(number_));
     painter->restore();
 }
 

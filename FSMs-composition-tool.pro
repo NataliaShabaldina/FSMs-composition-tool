@@ -27,11 +27,13 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    fsm-item.cpp
+    fsm-item.cpp \
+    link-item.cpp
 
 HEADERS += \
         mainwindow.h \
-    fsm-item.h
+    fsm-item.h \
+    link-item.h
 
 FORMS += \
         mainwindow.ui

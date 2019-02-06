@@ -1,8 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "fsm-item.h"
+#include "link-item.h"
 
 #include <QGraphicsRectItem>
+
+int linkItem::linkNumber = 0;
+int fsmItem::fsmNumber = 0;
+
 
 MainWindow::MainWindow(QWidget *parent) :
      QMainWindow(parent),
@@ -13,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
      ui_->graphicsView->setScene(&scene_);
 }
 
-int fsmItem::fsmNumber = 0;
 void MainWindow::on_addFsmButt_clicked()
 {
      fsmItem* fsm = new fsmItem;
@@ -23,11 +27,9 @@ void MainWindow::on_addFsmButt_clicked()
 
 void MainWindow::on_addLinkButt_clicked()
 {
-     QGraphicsLineItem* currLine = scene_.addLine(QLineF(0, 0, 80, 0), QPen(Qt::black, 3));
-     QGraphicsSimpleTextItem* linkName = scene_.addSimpleText("A"); ///@todo каждый раз новая буква
-     linkName->setParentItem(currLine);
-     linkName->setPos(40, 5);
-     currLine->setFlags(QGraphicsItem::ItemIsMovable);
+     linkItem* link = new linkItem;
+     link->setFlags(QGraphicsItem::ItemIsMovable);
+     scene_.addItem(link);
 }
 
 MainWindow::~MainWindow()

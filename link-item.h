@@ -1,23 +1,22 @@
-#ifndef FSMITEM_H
-#define FSMITEM_H
+#ifndef LINKITEM_H
+#define LINKITEM_H
 
 #include <QtWidgets/QGraphicsItem>
 #include <QPainter>
 #include <QApplication>
 
-class fsmItem : public QGraphicsItem
+class linkItem : public QGraphicsItem
 {
 private:
      // Используется для нумерации автоматов
      // Увеличивается в конструкторе
-     static int fsmNumber;
+     static int linkNumber;
 
      enum { penWidth = 2 };
 
      int number_;
-
 public:
-     fsmItem();
+     linkItem();
 
      /// @brief Определяет невидимые элементы и неприкрытые области, которые должны быть отрисованы стр. 324
      virtual QRectF boundingRect() const;
@@ -35,4 +34,5 @@ public:
 
 };
 
-#endif // FSMITEM_H
+
+#endif // LINKITEM_H
