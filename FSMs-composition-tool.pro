@@ -28,12 +28,15 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     fsm-item.cpp \
-    link-item.cpp
+    link-item.cpp \
+    arrow-item.cpp
 
 HEADERS += \
         mainwindow.h \
     fsm-item.h \
-    link-item.h
+    link-item.h \
+    arrow-item.h \
+    globals.h
 
 FORMS += \
         mainwindow.ui

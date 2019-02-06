@@ -12,10 +12,7 @@ private:
      // Увеличивается в конструкторе
      static int fsmNumber;
 
-     enum { penWidth = 2 };
-
      int number_;
-
 public:
      fsmItem();
 
@@ -32,7 +29,6 @@ public:
 
      /// @brief Действие при отпускании кнопки мыши
      virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
-
 };
 
 #endif // FSMITEM_H
