@@ -41,15 +41,3 @@ void linkItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
      setTransform(transform);
 }
 
-void linkItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
-{
-     QApplication::setOverrideCursor(Qt::PointingHandCursor);
-     QGraphicsItem::mousePressEvent(event);
-}
-
-void linkItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
-{
-     QApplication::restoreOverrideCursor();
-     QGraphicsItem::mouseReleaseEvent(event);
-}
-

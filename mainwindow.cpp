@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include "fsm-item.h"
 #include "link-item.h"
+#include "composition-item.h"
+#include "globals.h"
 
 #include <QGraphicsRectItem>
 
@@ -30,6 +32,14 @@ void MainWindow::on_addLinkButt_clicked()
      linkItem* link = new linkItem;
      link->setFlags(QGraphicsItem::ItemIsMovable);
      scene_.addItem(link);
+}
+
+void MainWindow::on_addCompButt_clicked()
+{
+     compositionItem* compostion = new compositionItem;
+     compostion->setFlags(QGraphicsItem::ItemIsMovable);
+     compostion->setZValue(globals::behindAllItems);
+     scene_.addItem(compostion);
 }
 
 MainWindow::~MainWindow()

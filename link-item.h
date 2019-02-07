@@ -2,12 +2,13 @@
 #define LINKITEM_H
 
 #include "arrow-item.h"
+#include "common-item.h"
 
 #include <QtWidgets/QGraphicsItem>
 #include <QPainter>
 #include <QApplication>
 
-class linkItem : public QGraphicsItem
+class linkItem : public commonItem
 {
 private:
      // Используется для нумерации автоматов
@@ -34,12 +35,6 @@ public:
      virtual void paint(QPainter* painter,
                         const QStyleOptionGraphicsItem*,
                         QWidget*);
-
-     /// @brief Действие при нажатии кнопки мыши (курсор на указательный палец)
-     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
-
-     /// @brief Действие при отпускании кнопки мыши (меняется курсор на обычный)
-     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
 
      /// @brief При двойном клике стрелка меняет своё направление
      virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);

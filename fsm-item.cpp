@@ -23,15 +23,3 @@ void fsmItem::paint(QPainter* painter,
     painter->drawText(55, 35, QString::number(number_));
     painter->restore();
 }
-
-void fsmItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
-{
-     QApplication::setOverrideCursor(Qt::PointingHandCursor);
-     QGraphicsItem::mousePressEvent(event);
-}
-
-void fsmItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
-{
-     QApplication::restoreOverrideCursor();
-     QGraphicsItem::mouseReleaseEvent(event);
-}

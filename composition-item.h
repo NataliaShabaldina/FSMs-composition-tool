@@ -1,5 +1,5 @@
-#ifndef FSMITEM_H
-#define FSMITEM_H
+#ifndef COMPOSITIONITEM_H
+#define COMPOSITIONITEM_H
 
 #include "common-item.h"
 
@@ -7,16 +7,10 @@
 #include <QPainter>
 #include <QApplication>
 
-class fsmItem : public commonItem
+class compositionItem : public commonItem
 {
-private:
-     // Используется для нумерации автоматов
-     // Увеличивается в конструкторе
-     static int fsmNumber;
-
-     int number_;
 public:
-     fsmItem();
+     compositionItem();
 
      /// @brief Определяет невидимые элементы и неприкрытые области, которые должны быть отрисованы стр. 324
      virtual QRectF boundingRect() const;
@@ -27,4 +21,4 @@ public:
                         QWidget*);
 };
 
-#endif // FSMITEM_H
+#endif // COMPOSITIONITEM_H

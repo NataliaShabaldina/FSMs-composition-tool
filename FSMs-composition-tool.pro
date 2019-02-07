@@ -29,14 +29,18 @@ SOURCES += \
         mainwindow.cpp \
     fsm-item.cpp \
     link-item.cpp \
-    arrow-item.cpp
+    arrow-item.cpp \
+    composition-item.cpp \
+    common-item.cpp
 
 HEADERS += \
         mainwindow.h \
     fsm-item.h \
     link-item.h \
     arrow-item.h \
-    globals.h
+    globals.h \
+    composition-item.h \
+    common-item.h
 
 FORMS += \
         mainwindow.ui

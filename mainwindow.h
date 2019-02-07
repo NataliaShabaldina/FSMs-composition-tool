@@ -17,6 +17,8 @@ public:
      ~MainWindow();
 
 public slots:
+     /// !!!Слоты вида on_btnName_clicked() коннектятся с сигналом автоматически!!!
+
      ///@brief Слот нажатия на кнопку добавления автомата
      ///       Добавляет на сцену прямоугольник
      void on_addFsmButt_clicked();
@@ -24,6 +26,10 @@ public slots:
      ///@brief Слот нажатия на кнопку добавления связи
      ///       Добавляет на сцену линию
      void on_addLinkButt_clicked();
+
+     ///@brief Слот нажатия на кнопку добавления композиции
+     ///       Добавляет на сцену пунктирный прямоугольник
+     void on_addCompButt_clicked();
 
 private:
      Ui::MainWindow* ui_;
