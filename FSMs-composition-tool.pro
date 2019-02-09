@@ -31,7 +31,8 @@ SOURCES += \
     link-item.cpp \
     arrow-item.cpp \
     composition-item.cpp \
-    common-item.cpp
+    common-item.cpp \
+    view.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -40,7 +41,8 @@ HEADERS += \
     arrow-item.h \
     globals.h \
     composition-item.h \
-    common-item.h
+    common-item.h \
+    view.h
 
 FORMS += \
         mainwindow.ui

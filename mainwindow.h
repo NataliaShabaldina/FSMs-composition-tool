@@ -31,6 +31,8 @@ public slots:
      ///       Добавляет на сцену пунктирный прямоугольник
      void on_addCompButt_clicked();
 
+     void on_delButt_clicked();
+
 private:
      Ui::MainWindow* ui_;
      QGraphicsScene scene_;
