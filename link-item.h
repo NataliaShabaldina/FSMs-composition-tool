@@ -24,7 +24,7 @@ private:
      arrowItem* arrowItem_;
      QGraphicsTextItem* nameItem_;
 public:
-     linkItem();
+     linkItem(QGraphicsItem* parent = nullptr);
 
      QString getName() const;
 

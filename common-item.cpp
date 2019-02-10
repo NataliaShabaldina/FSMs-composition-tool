@@ -5,7 +5,8 @@
 #include "QKeyEvent"
 #include "QGraphicsScene"
 
-commonItem::commonItem()
+commonItem::commonItem(QGraphicsItem* parent)
+     : QGraphicsItem(parent)
 {
 
 }

@@ -6,7 +6,7 @@
 class arrowItem : public QGraphicsItem
 {
 public:
-     arrowItem(QGraphicsItem* parent);
+     arrowItem(QGraphicsItem* parent = nullptr);
 
      /// @brief Определяет невидимые элементы и неприкрытые области, которые должны быть отрисованы стр. 324
      virtual QRectF boundingRect() const;

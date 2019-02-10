@@ -2,7 +2,8 @@
 #include "arrow-item.h"
 #include "globals.h"
 
-linkItem::linkItem()
+linkItem::linkItem(QGraphicsItem* parent)
+     : commonItem (parent)
 {
      number_ = ++linkNumber;
 

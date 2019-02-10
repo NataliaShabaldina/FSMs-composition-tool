@@ -1,7 +1,8 @@
 #include "composition-item.h"
 #include "globals.h"
 
-compositionItem::compositionItem()
+compositionItem::compositionItem(QGraphicsItem* parent)
+     : commonItem(parent)
 {
 
 }

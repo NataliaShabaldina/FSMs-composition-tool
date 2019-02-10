@@ -16,7 +16,7 @@ private:
      int number_;
 protected:
      /// Конструктор спрятан, чтобы слечайно не создавать экземпляров
-     commonItem();
+     commonItem(QGraphicsItem* parent = nullptr);
 
 public:
      /// @brief Действие при нажатии кнопки мыши

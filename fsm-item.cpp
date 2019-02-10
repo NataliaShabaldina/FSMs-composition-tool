@@ -1,7 +1,8 @@
 #include "fsm-item.h"
 #include "globals.h"
 
-fsmItem::fsmItem()
+fsmItem::fsmItem(QGraphicsItem* parent)
+     : commonItem(parent)
 {
      number_ = ++fsmNumber;
 }
