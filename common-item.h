@@ -9,12 +9,12 @@
 class commonItem : public QGraphicsItem
 {
 private:
+
+protected:
      // Используется для нумерации автоматов
      // Увеличивается в конструкторе
-     static int fsmNumber;
+     static int itemNumber;
 
-     int number_;
-protected:
      /// Конструктор спрятан, чтобы слечайно не создавать экземпляров
      commonItem(QGraphicsItem* parent = nullptr);
 

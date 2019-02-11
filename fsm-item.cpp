@@ -11,6 +11,11 @@ fsmItem::fsmItem(QGraphicsItem* parent)
      nameItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
 }
 
+QString fsmItem::getName() const
+{
+     return nameItem_->toPlainText();
+}
+
 QRectF fsmItem::boundingRect() const
 {
      QPointF ptPosition(0 - globals::penWidth, 0 - globals::penWidth);
@@ -27,6 +32,8 @@ void fsmItem::paint(QPainter* painter,
     painter->drawRect(0, 0, 120, 80);
     painter->restore();
 }
+
+
 
 fsmItem::~fsmItem()
 {

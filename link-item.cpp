@@ -15,7 +15,7 @@ linkItem::linkItem(QGraphicsItem* parent)
 
 QString linkItem::getName() const
 {
-     return QString::number(number_);
+     return nameItem_->toPlainText();
 }
 
 QRectF linkItem::boundingRect() const
@@ -45,6 +45,6 @@ void linkItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 linkItem::~linkItem()
 {
-     number_--;
+     linkNumber--;
 }
 
