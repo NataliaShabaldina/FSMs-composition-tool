@@ -45,7 +45,7 @@ void MainWindow::on_addCompButt_clicked()
 
 void MainWindow::on_delButt_clicked()
 {
-     ui_->graphicsView->deleteItem();
+     scene_.clear();
 }
 
 MainWindow::~MainWindow()

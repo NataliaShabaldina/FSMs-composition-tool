@@ -24,6 +24,9 @@ public:
 
      /// @brief Действие при отпускании кнопки мыши
      virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+
+     /// @brief Обработка нажатий клавиш (Delete)
+     virtual void keyPressEvent(QKeyEvent* event);
 };
 
 #endif // COMMONITEM_H

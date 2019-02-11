@@ -24,4 +24,12 @@ void commonItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
      QGraphicsItem::mouseReleaseEvent(event);
 }
 
+void commonItem::keyPressEvent(QKeyEvent* event)
+{
+     /// Удаляем последний выделенный объект
+     if (event->key() == Qt::Key_Delete)
+     {
+          scene()->removeItem(this);
+     }
+}
 

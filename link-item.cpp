@@ -10,6 +10,7 @@ linkItem::linkItem(QGraphicsItem* parent)
      arrowItem_ = new arrowItem(this);
      nameItem_ = new QGraphicsTextItem(QString::number(number_), this);
      nameItem_->moveBy(standartLenght/2, 0);
+     nameItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
 }
 
 QString linkItem::getName() const

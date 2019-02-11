@@ -14,20 +14,4 @@ View::View(QGraphicsScene* scene, QWidget* parent)
 
 }
 
-void View::deleteItem()
-{
-     QGraphicsItem* lastFocused = scene()->focusItem();
-     if (lastFocused)
-     {
-          scene()->removeItem(lastFocused);
-     }
-}
 
-void View::keyPressEvent(QKeyEvent* event)
-{
-     /// Удаляем последний выделенный объект
-     if (event->key() == Qt::Key_Delete)
-     {
-          deleteItem();
-     }
-}
