@@ -15,8 +15,10 @@ private:
      static int fsmNumber;
 
      int number_;
+     QGraphicsTextItem* nameItem_;
 public:
      fsmItem(QGraphicsItem* parent = nullptr);
+     ~fsmItem();
 
      /// @brief Определяет невидимые элементы и неприкрытые области, которые должны быть отрисованы стр. 324
      virtual QRectF boundingRect() const;

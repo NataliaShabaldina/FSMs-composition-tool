@@ -5,6 +5,10 @@ fsmItem::fsmItem(QGraphicsItem* parent)
      : commonItem(parent)
 {
      number_ = ++fsmNumber;
+
+     nameItem_ = new QGraphicsTextItem(QString::number(number_), this);
+     nameItem_->moveBy(55, 25);
+     nameItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
 }
 
 QRectF fsmItem::boundingRect() const
@@ -21,6 +25,10 @@ void fsmItem::paint(QPainter* painter,
     painter->save();
     painter->setPen(QPen(Qt::black, globals::penWidth));
     painter->drawRect(0, 0, 120, 80);
-    painter->drawText(55, 35, QString::number(number_));
     painter->restore();
+}
+
+fsmItem::~fsmItem()
+{
+     fsmNumber--;
 }

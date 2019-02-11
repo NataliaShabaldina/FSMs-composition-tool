@@ -43,3 +43,8 @@ void linkItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
      setTransform(transform);
 }
 
+linkItem::~linkItem()
+{
+     number_--;
+}
+
