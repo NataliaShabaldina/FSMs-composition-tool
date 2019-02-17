@@ -2,8 +2,8 @@
 #include "fsm-item.h"
 #include "globals.h"
 
-#include "QKeyEvent"
-#include "QGraphicsScene"
+#include <QKeyEvent>
+#include <QGraphicsScene>
 
 commonItem::commonItem(QGraphicsItem* parent)
      : QGraphicsItem(parent)
@@ -33,3 +33,19 @@ void commonItem::keyPressEvent(QKeyEvent* event)
      }
 }
 
+void commonItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+     QMenu menu;
+     QAction* removeAction = menu.addAction(QIcon(":/context/icons/delete.svg"), "&Delete");
+     removeAction->setShortcut(QKeySequence::Delete);
+     QAction* currAct = menu.exec(event->screenPos());
+     if (currAct == removeAction)
+     {
+          removeItem();
+     }
+}
+
+void commonItem::removeItem()
+{
+     scene()->removeItem(this);
+}

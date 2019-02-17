@@ -4,6 +4,7 @@
 #include <QtWidgets/QGraphicsItem>
 #include <QPainter>
 #include <QApplication>
+#include <QGraphicsSceneContextMenuEvent>
 
 /// @brief Класс-прокладка для уменьшения дублирования кода в item-ах
 class commonItem : public QGraphicsItem
@@ -18,7 +19,6 @@ protected:
      /// Конструктор спрятан, чтобы слечайно не создавать экземпляров
      commonItem(QGraphicsItem* parent = nullptr);
 
-public:
      /// @brief Действие при нажатии кнопки мыши
      virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 
@@ -27,6 +27,12 @@ public:
 
      /// @brief Обработка нажатий клавиш (Delete)
      virtual void keyPressEvent(QKeyEvent* event);
+
+     /// @brief Контекстное меню - для всех элементов содержит удаление
+     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent* event);
+
+     /// @brief Удаляет элемент со сцены
+     void removeItem();
 };
 
 #endif // COMMONITEM_H

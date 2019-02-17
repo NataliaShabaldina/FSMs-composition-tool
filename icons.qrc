@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/context">
+        <file>icons/delete.svg</file>
+        <file>icons/file.svg</file>
+    </qresource>
+</RCC>
