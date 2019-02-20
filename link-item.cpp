@@ -11,6 +11,7 @@ linkItem::linkItem(QGraphicsItem* parent)
      nameItem_ = new QGraphicsTextItem(QString::number(number_), this);
      nameItem_->moveBy(standartLenght/2, 0);
      nameItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
+     nameItem_->setFlag(GraphicsItemFlag::ItemIgnoresTransformations);
 }
 
 QString linkItem::getName() const
@@ -33,11 +34,6 @@ void linkItem::paint(QPainter* painter,
 
 void linkItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-     // Разворачиваем текст, чтобы при развороте всего он остался читаемым
-     QTransform textTransform = nameItem_->transform();
-     textTransform.rotate(reverseAngle);
-     nameItem_->setTransform(textTransform);
-
      QTransform transform = this->transform();
      transform.rotate(reverseAngle);
      setTransform(transform);

@@ -15,7 +15,6 @@ fsmItem::fsmItem(QGraphicsItem* parent)
      nameItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
 
      file_.setFileName("");
-     setFlag(GraphicsItemFlag::ItemContainsChildrenInShape);
 }
 
 QString fsmItem::getName() const
