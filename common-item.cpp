@@ -4,6 +4,7 @@
 
 #include <QKeyEvent>
 #include <QGraphicsScene>
+#include <QDebug>
 
 commonItem::commonItem(QGraphicsItem* parent)
      : QGraphicsItem(parent)
@@ -44,6 +45,7 @@ void commonItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
           removeItem();
      }
 }
+
 
 void commonItem::removeItem()
 {

@@ -11,7 +11,7 @@ QRectF compositionItem::boundingRect() const
 {
      QPointF ptPosition(0 - globals::penWidth, 0 - globals::penWidth);
      QSizeF size(400 + globals::penWidth, 180 + globals::penWidth);
-     return QRectF(ptPosition, size);
+     return { ptPosition, size };
 }
 
 void compositionItem::paint(QPainter* painter,

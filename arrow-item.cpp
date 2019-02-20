@@ -12,7 +12,7 @@ QRectF arrowItem::boundingRect() const
 {
      QPointF ptPosition(0 - globals::penWidth, -10 - globals::penWidth);
      QSizeF size(80 + globals::penWidth, 20 + globals::penWidth);
-     return QRectF(ptPosition, size);
+     return { ptPosition, size };
 }
 
 void arrowItem::paint(QPainter* painter,

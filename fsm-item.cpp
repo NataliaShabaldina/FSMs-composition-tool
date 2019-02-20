@@ -15,7 +15,7 @@ fsmItem::fsmItem(QGraphicsItem* parent)
      nameItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
 
      file_.setFileName("");
-
+     setFlag(GraphicsItemFlag::ItemContainsChildrenInShape);
 }
 
 QString fsmItem::getName() const
@@ -27,7 +27,7 @@ QRectF fsmItem::boundingRect() const
 {
      QPointF ptPosition(0 - globals::penWidth, 0 - globals::penWidth);
      QSizeF size(120 + globals::penWidth, 80 + globals::penWidth);
-     return QRectF(ptPosition, size);
+     return { ptPosition, size };
 }
 
 void fsmItem::paint(QPainter* painter,

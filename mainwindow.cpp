@@ -23,21 +23,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::on_addFsmButt_clicked()
 {
-     fsmItem* fsm = new fsmItem;
+     auto fsm = new fsmItem;
      fsm->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
      scene_.addItem(fsm);
 }
 
 void MainWindow::on_addLinkButt_clicked()
 {
-     linkItem* link = new linkItem;
+     auto link = new linkItem;
      link->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
      scene_.addItem(link);
 }
 
 void MainWindow::on_addCompButt_clicked()
 {
-     compositionItem* compostion = new compositionItem;
+     auto compostion = new compositionItem;
      compostion->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
      compostion->setZValue(globals::behindAllItems);
      scene_.addItem(compostion);

@@ -33,6 +33,8 @@ protected:
 
      /// @brief Удаляет элемент со сцены
      void removeItem();
+
+
 };
 
 #endif // COMMONITEM_H

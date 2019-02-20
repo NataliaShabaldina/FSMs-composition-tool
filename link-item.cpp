@@ -22,7 +22,7 @@ QRectF linkItem::boundingRect() const
 {
      QPointF ptPosition(0 - globals::penWidth, 0 - globals::penWidth);
      QSizeF size(standartLenght + globals::penWidth, standartWidth + globals::penWidth);
-     return QRectF(ptPosition, size);
+     return { ptPosition, size };
 }
 
 void linkItem::paint(QPainter* painter,
