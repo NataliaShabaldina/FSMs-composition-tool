@@ -23,6 +23,10 @@ private:
 
      arrowItem* arrowItem_;
      QGraphicsTextItem* nameItem_;
+
+private:
+     void rotate();
+
 public:
      linkItem(QGraphicsItem* parent = nullptr);
      ~linkItem();
@@ -39,6 +43,9 @@ public:
 
      /// @brief При двойном клике стрелка меняет своё направление
      virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+
+     /// @brief Конекстное меню для автомата содержит также прикрепление файла
+     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 };
 
 

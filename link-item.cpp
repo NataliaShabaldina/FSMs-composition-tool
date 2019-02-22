@@ -2,6 +2,9 @@
 #include "arrow-item.h"
 #include "globals.h"
 
+#include <QAction>
+#include <QMenu>
+
 linkItem::linkItem(QGraphicsItem* parent)
      : commonItem (parent)
 {
@@ -12,11 +15,19 @@ linkItem::linkItem(QGraphicsItem* parent)
      nameItem_->moveBy(standartLenght/2, 0);
      nameItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
      nameItem_->setFlag(GraphicsItemFlag::ItemIgnoresTransformations);
+
 }
 
 QString linkItem::getName() const
 {
      return nameItem_->toPlainText();
+}
+
+void linkItem::rotate()
+{
+     QTransform transform = this->transform();
+     transform.rotate(reverseAngle);
+     setTransform(transform);
 }
 
 QRectF linkItem::boundingRect() const
@@ -32,11 +43,27 @@ void linkItem::paint(QPainter* painter,
 {
 }
 
+void linkItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+     QMenu menu;
+     QAction* removeAction = menu.addAction("&Delete");
+     removeAction->setIcon(QIcon(":/context/icons/delete.svg"));
+     QAction* rotateAction = menu.addAction("&Rotate");
+     rotateAction->setIcon(QIcon(":/context/icons/rotate.svg"));
+     QAction* currAct = menu.exec(event->screenPos());
+     if (currAct == removeAction)
+     {
+          removeItem();
+     }
+     else if (currAct == rotateAction)
+     {
+          rotate();
+     }
+}
+
 void linkItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-     QTransform transform = this->transform();
-     transform.rotate(reverseAngle);
-     setTransform(transform);
+     rotate();
 }
 
 linkItem::~linkItem()

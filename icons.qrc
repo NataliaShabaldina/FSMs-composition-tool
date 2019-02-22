@@ -2,5 +2,6 @@
     <qresource prefix="/context">
         <file>icons/delete.svg</file>
         <file>icons/file.svg</file>
+        <file>icons/rotate.svg</file>
     </qresource>
 </RCC>
