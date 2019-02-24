@@ -25,7 +25,7 @@ QString fsmItem::getName() const
 QRectF fsmItem::boundingRect() const
 {
      QPointF ptPosition(0 - globals::penWidth, 0 - globals::penWidth);
-     QSizeF size(120 + globals::penWidth, 80 + globals::penWidth);
+     QSizeF size(120 + globals::penWidth + globals::collideError, 80 + globals::penWidth + globals::collideError);
      return { ptPosition, size };
 }
 

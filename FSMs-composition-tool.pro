@@ -32,7 +32,10 @@ SOURCES += \
     arrow-item.cpp \
     composition-item.cpp \
     common-item.cpp \
-    view.cpp
+    view.cpp \
+    fsm.cpp \
+    link.cpp \
+    composition.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -42,7 +45,10 @@ HEADERS += \
     globals.h \
     composition-item.h \
     common-item.h \
-    view.h
+    view.h \
+    fsm.h \
+    link.h \
+    composition.h
 
 FORMS += \
         mainwindow.ui

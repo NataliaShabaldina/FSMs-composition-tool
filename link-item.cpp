@@ -5,6 +5,8 @@
 #include <QAction>
 #include <QMenu>
 
+#include <QDebug>
+
 linkItem::linkItem(QGraphicsItem* parent)
      : commonItem (parent)
 {
@@ -15,7 +17,6 @@ linkItem::linkItem(QGraphicsItem* parent)
      nameItem_->moveBy(standartLenght/2, 0);
      nameItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
      nameItem_->setFlag(GraphicsItemFlag::ItemIgnoresTransformations);
-
 }
 
 QString linkItem::getName() const
@@ -25,7 +26,10 @@ QString linkItem::getName() const
 
 void linkItem::rotate()
 {
+     setTransformOriginPoint(41, 10);
      QTransform transform = this->transform();
+
+     qDebug() << transformOriginPoint().x() << "and " << transformOriginPoint().y();
      transform.rotate(reverseAngle);
      setTransform(transform);
 }
@@ -33,7 +37,7 @@ void linkItem::rotate()
 QRectF linkItem::boundingRect() const
 {
      QPointF ptPosition(0 - globals::penWidth, 0 - globals::penWidth);
-     QSizeF size(standartLenght + globals::penWidth, standartWidth + globals::penWidth);
+     QSizeF size(standartLenght + globals::penWidth + globals::collideError, standartWidth + globals::penWidth + globals::collideError);
      return { ptPosition, size };
 }
 
@@ -59,6 +63,13 @@ void linkItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
      {
           rotate();
      }
+}
+
+void linkItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+     qDebug() << event->pos().x() << " and " << event->pos().y() << endl;
+
+     qDebug() << collidingItems().size();
 }
 
 void linkItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)

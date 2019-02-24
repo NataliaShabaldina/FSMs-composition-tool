@@ -44,6 +44,9 @@ public:
      /// @brief При двойном клике стрелка меняет своё направление
      virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
+     ///////////////////////////////////////DELETE
+     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+
      /// @brief Конекстное меню для автомата содержит также прикрепление файла
      virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 };
