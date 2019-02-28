@@ -35,7 +35,8 @@ SOURCES += \
     view.cpp \
     fsm.cpp \
     link.cpp \
-    composition.cpp
+    composition.cpp \
+    scene.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -48,7 +49,8 @@ HEADERS += \
     view.h \
     fsm.h \
     link.h \
-    composition.h
+    composition.h \
+    scene.h
 
 FORMS += \
         mainwindow.ui

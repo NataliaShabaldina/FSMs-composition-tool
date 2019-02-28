@@ -14,7 +14,7 @@ int fsmItem::fsmNumber = 0;
 
 MainWindow::MainWindow(QWidget *parent) :
      QMainWindow(parent),
-     ui_(new Ui::MainWindow), scene_(QRectF(-100, -100, 300, 300)) ///@todo разобраться с размерами
+     ui_(new Ui::MainWindow), scene_(QRectF(0, 0, 500, 450)) ///@todo разобраться с размерами
 {
      ui_->setupUi(this);
 
@@ -23,24 +23,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::on_addFsmButt_clicked()
 {
-     auto fsm = new fsmItem;
-     fsm->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
-     scene_.addItem(fsm);
+     scene_.addFsm();
 }
 
 void MainWindow::on_addLinkButt_clicked()
 {
-     auto link = new linkItem;
-     link->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
-     scene_.addItem(link);
+     scene_.addLink();
 }
 
 void MainWindow::on_addCompButt_clicked()
 {
-     auto compostion = new compositionItem;
-     compostion->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
-     compostion->setZValue(globals::behindAllItems);
-     scene_.addItem(compostion);
+     scene_.addComposition();
 }
 
 void MainWindow::on_delButt_clicked()

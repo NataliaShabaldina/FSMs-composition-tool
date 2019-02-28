@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "scene.h"
+
 #include <QMainWindow>
 #include <QGraphicsScene>
 
@@ -36,7 +38,7 @@ public slots:
 
 private:
      Ui::MainWindow* ui_;
-     QGraphicsScene scene_;
+     Scene scene_;
 };
 
 #endif // MAINWINDOW_H

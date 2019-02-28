@@ -88,7 +88,7 @@
       <item>
        <widget class="QPushButton" name="generateButt">
         <property name="text">
-         <string>Generate</string>
+         <string> Generate XML</string>
         </property>
        </widget>
       </item>
@@ -102,7 +102,7 @@
      <x>0</x>
      <y>0</y>
      <width>810</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>
