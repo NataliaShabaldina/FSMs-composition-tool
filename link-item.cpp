@@ -7,24 +7,24 @@
 
 #include <QDebug>
 
-linkItem::linkItem(QGraphicsItem* parent)
-     : commonItem (parent)
+LinkItem::LinkItem(QGraphicsItem* parent)
+     : CommonItem (parent)
 {
      number_ = ++linkNumber;
 
-     arrowItem_ = new arrowItem(this);
+     arrowItem_ = new ArrowItem(this);
      nameItem_ = new QGraphicsTextItem(QString::number(number_), this);
      nameItem_->moveBy(standartLenght/2, 0);
      nameItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
      nameItem_->setFlag(GraphicsItemFlag::ItemIgnoresTransformations);
 }
 
-QString linkItem::getName() const
+QString LinkItem::getName() const
 {
      return nameItem_->toPlainText();
 }
 
-void linkItem::rotate()
+void LinkItem::rotate()
 {
      setTransformOriginPoint(41, 10);
      QTransform transform = this->transform();
@@ -34,20 +34,20 @@ void linkItem::rotate()
      setTransform(transform);
 }
 
-QRectF linkItem::boundingRect() const
+QRectF LinkItem::boundingRect() const
 {
      QPointF ptPosition(0 - globals::penWidth, 0 - globals::penWidth);
      QSizeF size(standartLenght + globals::penWidth + globals::collideError, standartWidth + globals::penWidth + globals::collideError);
      return { ptPosition, size };
 }
 
-void linkItem::paint(QPainter* painter,
+void LinkItem::paint(QPainter* painter,
                    const QStyleOptionGraphicsItem*,
                    QWidget*)
 {
 }
 
-void linkItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+void LinkItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
      QMenu menu;
      QAction* removeAction = menu.addAction("&Delete");
@@ -65,19 +65,19 @@ void linkItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
      }
 }
 
-void linkItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void LinkItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
      qDebug() << event->pos().x() << " and " << event->pos().y() << endl;
 
      qDebug() << collidingItems().size();
 }
 
-void linkItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void LinkItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
      rotate();
 }
 
-linkItem::~linkItem()
+LinkItem::~LinkItem()
 {
      linkNumber--;
 }

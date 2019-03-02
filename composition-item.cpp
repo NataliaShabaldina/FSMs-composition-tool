@@ -1,20 +1,20 @@
 #include "composition-item.h"
 #include "globals.h"
 
-compositionItem::compositionItem(QGraphicsItem* parent)
-     : commonItem(parent)
+CompositionItem::CompositionItem(QGraphicsItem* parent)
+     : CommonItem(parent)
 {
 
 }
 
-QRectF compositionItem::boundingRect() const
+QRectF CompositionItem::boundingRect() const
 {
      QPointF ptPosition(0 - globals::penWidth, 0 - globals::penWidth);
      QSizeF size(400 + globals::penWidth, 180 + globals::penWidth);
      return { ptPosition, size };
 }
 
-void compositionItem::paint(QPainter* painter,
+void CompositionItem::paint(QPainter* painter,
                    const QStyleOptionGraphicsItem*,
                    QWidget*)
 {

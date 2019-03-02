@@ -1,5 +1,16 @@
 #include "scene.h"
 #include "globals.h"
+#include "fsm.h"
+#include "link.h"
+#include "composition.h"
+
+#include <vector>
+#include <QDebug>
+
+
+using fsmVector = std::vector<Fsm>;
+using linkVector = std::vector<Link>;
+using compositionVector = std::vector<Composition>;
 
 Scene::Scene(QObject* parent)
      : QGraphicsScene(parent)
@@ -13,15 +24,16 @@ Scene::Scene(const QRectF &sceneRect, QObject *parent)
 
 void Scene::addFsm()
 {
-     auto fsm = new fsmItem;
+     auto fsm = new FsmItem;
      fsm->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
      addItem(fsm);
      fsms_.push_back(fsm);
+     DprintFsmName();
 }
 
 void Scene::addLink()
 {
-     auto link = new linkItem;
+     auto link = new LinkItem;
      link->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
      addItem(link);
      links_.push_back(link);
@@ -29,7 +41,7 @@ void Scene::addLink()
 
 void Scene::addComposition()
 {
-     auto compostion = new compositionItem;
+     auto compostion = new CompositionItem;
      compostion->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
      compostion->setZValue(globals::behindAllItems);
      addItem(compostion);

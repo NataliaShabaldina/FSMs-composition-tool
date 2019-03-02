@@ -6,26 +6,26 @@
 #include <QGraphicsScene>
 #include <QDebug>
 
-commonItem::commonItem(QGraphicsItem* parent)
+CommonItem::CommonItem(QGraphicsItem* parent)
      : QGraphicsItem(parent)
 {
 
 }
 
-void commonItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
+void CommonItem::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
      QApplication::setOverrideCursor(Qt::PointingHandCursor);
      setFocus();
      QGraphicsItem::mousePressEvent(event);
 }
 
-void commonItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+void CommonItem::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
      QApplication::restoreOverrideCursor();
      QGraphicsItem::mouseReleaseEvent(event);
 }
 
-void commonItem::keyPressEvent(QKeyEvent* event)
+void CommonItem::keyPressEvent(QKeyEvent* event)
 {
      /// Удаляем последний выделенный объект
      if (event->key() == Qt::Key_Delete)
@@ -34,7 +34,7 @@ void commonItem::keyPressEvent(QKeyEvent* event)
      }
 }
 
-void commonItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+void CommonItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
      QMenu menu;
      QAction* removeAction = menu.addAction(QIcon(":/context/icons/delete.svg"), "&Delete");
@@ -47,7 +47,7 @@ void commonItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 }
 
 
-void commonItem::removeItem()
+void CommonItem::removeItem()
 {
      scene()->removeItem(this);
 }

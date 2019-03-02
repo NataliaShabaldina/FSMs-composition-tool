@@ -3,12 +3,13 @@
 
 #include "arrow-item.h"
 #include "common-item.h"
+#include "link.h"
 
 #include <QtWidgets/QGraphicsItem>
 #include <QPainter>
 #include <QApplication>
 
-class linkItem : public commonItem
+class LinkItem : public CommonItem
 {
 private:
      // Используется для нумерации автоматов
@@ -21,18 +22,17 @@ private:
 
      int number_;
 
-     arrowItem* arrowItem_;
+     /// @brief Итем отрисовывающий стрелку
+     ArrowItem* arrowItem_;
+     /// @brief Итем отрисосывающий имя канала
      QGraphicsTextItem* nameItem_;
-
+     /// @brief Логический элемент канала
+     Link link_;
 private:
+     /// @brief Разворачивает стрелку на 180 градусов
      void rotate();
 
-public:
-     linkItem(QGraphicsItem* parent = nullptr);
-     ~linkItem();
-
-     QString getName() const;
-
+protected:
      /// @brief Определяет невидимые элементы и неприкрытые области, которые должны быть отрисованы стр. 324
      virtual QRectF boundingRect() const;
 
@@ -44,11 +44,21 @@ public:
      /// @brief При двойном клике стрелка меняет своё направление
      virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
-     ///////////////////////////////////////DELETE
+     ///////////////////////////////////////DELETE only for debug
      virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
 
      /// @brief Конекстное меню для автомата содержит также прикрепление файла
      virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+
+public:
+     LinkItem(QGraphicsItem* parent = nullptr);
+     ~LinkItem();
+
+     QString getName() const;
+
+     /// @brief Формирует логический элемент
+     /// @exception
+     void formLink();
 };
 
 

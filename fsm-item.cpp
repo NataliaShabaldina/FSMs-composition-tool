@@ -5,41 +5,48 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-fsmItem::fsmItem(QGraphicsItem* parent)
-     : commonItem(parent)
+FsmItem::FsmItem(QGraphicsItem* parent)
+     : CommonItem(parent)
 {
      number_ = ++fsmNumber;
 
-     nameItem_ = new QGraphicsTextItem(QString::number(number_), this);
-     nameItem_->moveBy(55, 25);
-     nameItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
+     idItem_ = new QGraphicsTextItem(QString::number(number_), this);
+     idItem_->moveBy(55, 25);
+     idItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
 
      file_.setFileName("");
+
+     formFsm();
 }
 
-QString fsmItem::getName() const
+QString FsmItem::getId() const
 {
-     return nameItem_->toPlainText();
+     return idItem_->toPlainText();
 }
 
-QRectF fsmItem::boundingRect() const
+void FsmItem::formFsm()
+{
+     fsm_ = Fsm( "", getId() );
+}
+
+QRectF FsmItem::boundingRect() const
 {
      QPointF ptPosition(0 - globals::penWidth, 0 - globals::penWidth);
      QSizeF size(120 + globals::penWidth + globals::collideError, 80 + globals::penWidth + globals::collideError);
      return { ptPosition, size };
 }
 
-void fsmItem::paint(QPainter* painter,
+void FsmItem::paint(QPainter* painter,
                    const QStyleOptionGraphicsItem*,
                    QWidget*)
 {
-    painter->save();
-    painter->setPen(QPen(Qt::black, globals::penWidth));
-    painter->drawRect(0, 0, 120, 80);
-    painter->restore();
+     painter->save();
+     painter->setPen(QPen(Qt::black, globals::penWidth));
+     painter->drawRect(0, 0, 120, 80);
+     painter->restore();
 }
 
-void fsmItem::onAttachFile()
+void FsmItem::onAttachFile()
 {
      QString filePath = QFileDialog::getOpenFileName(nullptr,
                                                  "Choose the .aut file",
@@ -58,7 +65,7 @@ void fsmItem::onAttachFile()
      }
 }
 
-void fsmItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+void FsmItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
      QMenu menu;
      QAction* removeAction = menu.addAction("&Delete");
@@ -76,7 +83,7 @@ void fsmItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
      }
 }
 
-fsmItem::~fsmItem()
+FsmItem::~FsmItem()
 {
      fsmNumber--;
 }

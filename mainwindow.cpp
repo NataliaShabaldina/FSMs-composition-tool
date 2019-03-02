@@ -8,8 +8,8 @@
 
 #include <QGraphicsRectItem>
 
-int linkItem::linkNumber = 0;
-int fsmItem::fsmNumber = 0;
+int LinkItem::linkNumber = 0;
+int FsmItem::fsmNumber = 0;
 
 
 MainWindow::MainWindow(QWidget *parent) :

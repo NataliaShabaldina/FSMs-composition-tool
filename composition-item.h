@@ -2,16 +2,18 @@
 #define COMPOSITIONITEM_H
 
 #include "common-item.h"
+#include "composition.h"
 
 #include <QtWidgets/QGraphicsItem>
 #include <QPainter>
 #include <QApplication>
 
-class compositionItem : public commonItem
+class CompositionItem : public CommonItem
 {
-public:
-     compositionItem(QGraphicsItem* parent = nullptr);
+private:
+     Composition composition_;
 
+protected:
      /// @brief Определяет невидимые элементы и неприкрытые области, которые должны быть отрисованы стр. 324
      virtual QRectF boundingRect() const;
 
@@ -19,6 +21,12 @@ public:
      virtual void paint(QPainter* painter,
                         const QStyleOptionGraphicsItem*,
                         QWidget*);
+
+public:
+     CompositionItem(QGraphicsItem* parent = nullptr);
+
+     /// @brief Формирует логический элемент композиции
+     void formComposition();
 };
 
 #endif // COMPOSITIONITEM_H

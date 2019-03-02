@@ -3,10 +3,10 @@
 
 #include <QGraphicsItem>
 
-class arrowItem : public QGraphicsItem
+class ArrowItem : public QGraphicsItem
 {
 public:
-     arrowItem(QGraphicsItem* parent = nullptr);
+     ArrowItem(QGraphicsItem* parent = nullptr);
 
      /// @brief Определяет невидимые элементы и неприкрытые области, которые должны быть отрисованы стр. 324
      virtual QRectF boundingRect() const;

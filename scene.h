@@ -7,9 +7,9 @@
 
 #include <QGraphicsScene>
 
-using fsmVector = std::vector<fsmItem*>;
-using linkVector = std::vector<linkItem*>;
-using compositionVector = std::vector<compositionItem*>;
+using fsmItemsVector = std::vector<FsmItem*>;
+using linkItemsVector = std::vector<LinkItem*>;
+using compositionItemsVector = std::vector<CompositionItem*>;
 
 class Scene : public QGraphicsScene
 {
@@ -28,13 +28,9 @@ public:
      void addComposition();
 
 private:
-
-
-
-private:
-     fsmVector fsms_;
-     linkVector links_;
-     compositionVector compositions_;
+     fsmItemsVector fsms_;
+     linkItemsVector links_;
+     compositionItemsVector compositions_;
 };
 
 #endif // SCENE_H

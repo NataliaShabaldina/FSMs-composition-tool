@@ -7,7 +7,7 @@
 #include <QGraphicsSceneContextMenuEvent>
 
 /// @brief Класс-прокладка для уменьшения дублирования кода в item-ах
-class commonItem : public QGraphicsItem
+class CommonItem : public QGraphicsItem
 {
 private:
 
@@ -17,7 +17,7 @@ protected:
      static int itemNumber;
 
      /// Конструктор спрятан, чтобы слечайно не создавать экземпляров
-     commonItem(QGraphicsItem* parent = nullptr);
+     CommonItem(QGraphicsItem* parent = nullptr);
 
      /// @brief Действие при нажатии кнопки мыши
      virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);

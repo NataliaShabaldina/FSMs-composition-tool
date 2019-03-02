@@ -2,6 +2,7 @@
 #define FSMITEM_H
 
 #include "common-item.h"
+#include "fsm.h"
 
 #include <QtWidgets/QGraphicsItem>
 #include <QPainter>
@@ -9,20 +10,24 @@
 #include <QApplication>
 #include <QMenu>
 
-class fsmItem : public commonItem
+class FsmItem : public CommonItem
 {
 private:
      // Используется для нумерации автоматов
      // Увеличивается в конструкторе
      static int fsmNumber;
 
-     QFile file_;
-
+     /// @brief Используется для задания начального идентификатора автомата
      int number_;
-     QGraphicsTextItem* nameItem_;
-
+     /// @brief Текстовый итем - отвечает за отображение id_ автомата
+     QGraphicsTextItem* idItem_;
+     /// @brief Файл прикреплённый к автомату черещ onAtachFile()
+     QFile file_;
+     /// @brief Соответствующий логический элемент автомата
+     Fsm fsm_;
 private:
-     QString getName() const;
+     /// @brief Вызывает диалоговое окно выбора файла и прекрепляет файл к итему
+     void onAttachFile();
 
 protected:
      /// @brief Определяет невидимые элементы и неприкрытые области, которые должны быть отрисованы стр. 324
@@ -37,10 +42,12 @@ protected:
      virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 public:
-     fsmItem(QGraphicsItem* parent = nullptr);
-     ~fsmItem();
+     FsmItem(QGraphicsItem* parent = nullptr);
+     ~FsmItem();
+     QString getId() const;
 
-     void onAttachFile();
+     /// @brief Формирует fsm_ поле
+     void formFsm();
 };
 
 #endif // FSMITEM_H

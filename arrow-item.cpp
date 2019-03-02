@@ -4,18 +4,18 @@
 #include <QPainter>
 #include <QApplication>
 
-arrowItem::arrowItem(QGraphicsItem* parent) : QGraphicsItem (parent)
+ArrowItem::ArrowItem(QGraphicsItem* parent) : QGraphicsItem (parent)
 {
 }
 
-QRectF arrowItem::boundingRect() const
+QRectF ArrowItem::boundingRect() const
 {
      QPointF ptPosition(0 - globals::penWidth, -10 - globals::penWidth);
      QSizeF size(80 + globals::penWidth, 20 + globals::penWidth);
      return { ptPosition, size };
 }
 
-void arrowItem::paint(QPainter* painter,
+void ArrowItem::paint(QPainter* painter,
                    const QStyleOptionGraphicsItem*,
                    QWidget*)
 {
