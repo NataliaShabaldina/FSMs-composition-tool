@@ -6,16 +6,16 @@
 class Link
 {
 public:
-     Link();
+     Link(QString id = "", Fsm inputFsm = Fsm(), Fsm outputFsm = Fsm());
 
-     QString getName() const;
+     QString getId() const;
      Fsm getInputFsm() const;
      Fsm getOutputFsm() const;
 
 private:
+     QString id_;
      Fsm inputFsm_;
      Fsm outputFsm_;
-     QString name_;
 };
 
 #endif // LINK_H

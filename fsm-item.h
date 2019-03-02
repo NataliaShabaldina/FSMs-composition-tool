@@ -3,6 +3,7 @@
 
 #include "common-item.h"
 #include "fsm.h"
+#include "globals.h"
 
 #include <QtWidgets/QGraphicsItem>
 #include <QPainter>
@@ -46,8 +47,13 @@ public:
      ~FsmItem();
      QString getId() const;
 
+     /// @brief Возвращает логический элемент-автомат
+     Fsm getFsm() const;
+
      /// @brief Формирует fsm_ поле
      void formFsm();
+
+     int type() const;
 };
 
 #endif // FSMITEM_H

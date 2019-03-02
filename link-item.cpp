@@ -1,6 +1,7 @@
 #include "link-item.h"
 #include "arrow-item.h"
 #include "globals.h"
+#include "fsm-item.h"
 
 #include <QAction>
 #include <QMenu>
@@ -13,15 +14,76 @@ LinkItem::LinkItem(QGraphicsItem* parent)
      number_ = ++linkNumber;
 
      arrowItem_ = new ArrowItem(this);
-     nameItem_ = new QGraphicsTextItem(QString::number(number_), this);
-     nameItem_->moveBy(standartLenght/2, 0);
-     nameItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
-     nameItem_->setFlag(GraphicsItemFlag::ItemIgnoresTransformations);
+     idItem_ = new QGraphicsTextItem(QString::number(number_), this);
+     idItem_->moveBy(standartLenght/2, 0);
+     idItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
+     idItem_->setFlag(GraphicsItemFlag::ItemIgnoresTransformations);
+
+     startPoint_ = QPointF(0, standartWidth/2);
+     endPoint_ = QPointF(standartLenght + globals::penWidth, standartWidth/2);
 }
 
 QString LinkItem::getName() const
 {
-     return nameItem_->toPlainText();
+     return idItem_->toPlainText();
+}
+
+void LinkItem::formLink()
+{
+     auto containsPoint = [this](const FsmItem& fsm, const QPointF& pointOfLink)
+     {
+          return fsm.contains(fsm.mapFromItem(this, pointOfLink));
+     };
+
+     auto removeNotFsms = [](QList<QGraphicsItem*> allItems)
+     {
+          QList<FsmItem*> fsmItems;
+          for( const auto& item : allItems )
+          {
+               if ( globals::customTypes::fsm == item->type())
+               {
+                    fsmItems.append(dynamic_cast<FsmItem*>(item));
+               }
+          }
+          return fsmItems;
+     };
+
+     QList<FsmItem*> collidingFsms = removeNotFsms(collidingItems());
+     Fsm inputFsm = Fsm();
+     Fsm outputFsm = Fsm();
+     for( const auto& fsm : collidingFsms )
+     {
+          if( containsPoint(fsm, startPoint_) )
+          {
+               outputFsm = fsm->getFsm();
+          }
+          else if ( containsPoint(fsm, endPoint_ ) )
+          {
+               inputFsm = fsm->getFsm();
+          }
+          else
+          {
+               /// @todo Оформить исключение
+               throw;
+          }
+     }
+     link_ = Link(idItem_->toPlainText(), inputFsm, outputFsm);
+}
+
+#ifdef QT_DEBUG
+void LinkItem::debug()
+{
+     formLink();
+     qDebug() << link_.getId();
+     qDebug() << "input: " << link_.getInputFsm().getId();
+     qDebug() << "output: " << link_.getOutputFsm().getId();
+
+}
+#endif //QT_DEBUG
+
+int LinkItem::type() const
+{
+     return globals::customTypes::link;
 }
 
 void LinkItem::rotate()
@@ -50,6 +112,9 @@ void LinkItem::paint(QPainter* painter,
 void LinkItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
      QMenu menu;
+#ifdef QT_DEBUG
+     QAction* formAction = menu.addAction("&Form");
+#endif //QT_DEBUG
      QAction* removeAction = menu.addAction("&Delete");
      removeAction->setIcon(QIcon(":/context/icons/delete.svg"));
      QAction* rotateAction = menu.addAction("&Rotate");
@@ -63,14 +128,22 @@ void LinkItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
      {
           rotate();
      }
+#ifdef QT_DEBUG
+     else if (currAct == formAction)
+     {
+          debug();
+     }
+#endif //QT_DEBUG
 }
 
+#ifdef QT_DEBUG
 void LinkItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
      qDebug() << event->pos().x() << " and " << event->pos().y() << endl;
 
      qDebug() << collidingItems().size();
 }
+#endif //QT_DEBUG
 
 void LinkItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {

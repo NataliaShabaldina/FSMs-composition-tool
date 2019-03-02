@@ -3,6 +3,7 @@
 
 #include "common-item.h"
 #include "composition.h"
+#include "globals.h"
 
 #include <QtWidgets/QGraphicsItem>
 #include <QPainter>
@@ -27,6 +28,8 @@ public:
 
      /// @brief Формирует логический элемент композиции
      void formComposition();
+
+     int type() const;
 };
 
 #endif // COMPOSITIONITEM_H

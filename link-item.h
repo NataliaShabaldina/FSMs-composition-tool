@@ -4,6 +4,7 @@
 #include "arrow-item.h"
 #include "common-item.h"
 #include "link.h"
+#include "globals.h"
 
 #include <QtWidgets/QGraphicsItem>
 #include <QPainter>
@@ -25,9 +26,12 @@ private:
      /// @brief Итем отрисовывающий стрелку
      ArrowItem* arrowItem_;
      /// @brief Итем отрисосывающий имя канала
-     QGraphicsTextItem* nameItem_;
+     QGraphicsTextItem* idItem_;
      /// @brief Логический элемент канала
      Link link_;
+
+     QPointF startPoint_;
+     QPointF endPoint_;
 private:
      /// @brief Разворачивает стрелку на 180 градусов
      void rotate();
@@ -44,11 +48,12 @@ protected:
      /// @brief При двойном клике стрелка меняет своё направление
      virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
-     ///////////////////////////////////////DELETE only for debug
-     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
-
      /// @brief Конекстное меню для автомата содержит также прикрепление файла
      virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+
+#ifdef QT_DEBUG
+     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+#endif //QT_DEBUG
 
 public:
      LinkItem(QGraphicsItem* parent = nullptr);
@@ -59,6 +64,8 @@ public:
      /// @brief Формирует логический элемент
      /// @exception
      void formLink();
+     void debug();
+     int type() const;
 };
 
 

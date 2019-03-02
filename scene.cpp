@@ -28,7 +28,6 @@ void Scene::addFsm()
      fsm->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
      addItem(fsm);
      fsms_.push_back(fsm);
-     DprintFsmName();
 }
 
 void Scene::addLink()

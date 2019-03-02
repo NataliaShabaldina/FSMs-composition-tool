@@ -24,9 +24,19 @@ QString FsmItem::getId() const
      return idItem_->toPlainText();
 }
 
+Fsm FsmItem::getFsm() const
+{
+     return fsm_;
+}
+
 void FsmItem::formFsm()
 {
      fsm_ = Fsm( "", getId() );
+}
+
+int FsmItem::type() const
+{
+     return globals::customTypes::fsm;
 }
 
 QRectF FsmItem::boundingRect() const

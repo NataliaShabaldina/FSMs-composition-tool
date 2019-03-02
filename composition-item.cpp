@@ -7,6 +7,11 @@ CompositionItem::CompositionItem(QGraphicsItem* parent)
 
 }
 
+int CompositionItem::type() const
+{
+     return globals::customTypes::composition;
+}
+
 QRectF CompositionItem::boundingRect() const
 {
      QPointF ptPosition(0 - globals::penWidth, 0 - globals::penWidth);
