@@ -15,8 +15,6 @@ FsmItem::FsmItem(QGraphicsItem* parent)
      idItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
 
      file_.setFileName("");
-
-     formFsm();
 }
 
 QString FsmItem::getId() const

@@ -7,16 +7,17 @@
 
 #include <QGraphicsScene>
 
-using fsmItemsVector = std::vector<FsmItem*>;
-using linkItemsVector = std::vector<LinkItem*>;
-using compositionItemsVector = std::vector<CompositionItem*>;
-
+/// @brief Класс сцены
 class Scene : public QGraphicsScene
 {
+private:
+     fsmItemsVector fsms_;
+     linkItemsVector links_;
+     compositionItemsVector compositions_;
+
 public:
      Scene(QObject* parent = nullptr);
      Scene(const QRectF &sceneRect, QObject *parent = nullptr);
-
 
      ///@brief Добавляет на сцену автомат и запоминает в fsms_
      void addFsm();
@@ -26,11 +27,6 @@ public:
 
      ///@brief Добавляет на сцену композицию и запоминает в compositions_
      void addComposition();
-
-private:
-     fsmItemsVector fsms_;
-     linkItemsVector links_;
-     compositionItemsVector compositions_;
 };
 
 #endif // SCENE_H

@@ -27,9 +27,19 @@ public:
      CompositionItem(QGraphicsItem* parent = nullptr);
 
      /// @brief Формирует логический элемент композиции
+     ///        Вызывает формирование связей
+     ///        Которые вызывают формирование автоматов
      void formComposition();
 
      int type() const;
+
+#ifdef QT_DEBUG
+     // Добавляет контекстное меню, позволяющее сформировать связь
+     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+
+     // Выводит в qDebug() автоматы и связи, входящие в композицию
+     void printFsmsAndLinks();
+#endif //QT_DEBUG
 };
 
 #endif // COMPOSITIONITEM_H

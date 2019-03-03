@@ -10,16 +10,20 @@
 #include <QPainter>
 #include <QApplication>
 
+/// @brief Класс связи как графического элемента
+///        Содержит в себе связь как логический элемент
+///        Отвечает за его формирование
+///        В процессе формирования связи (лог. эл.) вызывает формирование автомата (лог. эл.)
 class LinkItem : public CommonItem
 {
 private:
-     // Используется для нумерации автоматов
-     // Увеличивается в конструкторе
-     static int linkNumber;
-
      enum { reverseAngle = 180 };
      enum { standartLenght = 80 };
      enum { standartWidth = 20 };
+
+     // Используется для нумерации автоматов
+     // Увеличивается в конструкторе
+     static int linkNumber;
 
      int number_;
 
@@ -30,7 +34,9 @@ private:
      /// @brief Логический элемент канала
      Link link_;
 
+     /// @brief Точка начала стрелки
      QPointF startPoint_;
+     /// @brief Точка конца стрелки
      QPointF endPoint_;
 private:
      /// @brief Разворачивает стрелку на 180 градусов
@@ -48,24 +54,25 @@ protected:
      /// @brief При двойном клике стрелка меняет своё направление
      virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
-     /// @brief Конекстное меню для автомата содержит также прикрепление файла
      virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 #ifdef QT_DEBUG
      virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+     void printDebugInfo();
 #endif //QT_DEBUG
 
 public:
      LinkItem(QGraphicsItem* parent = nullptr);
      ~LinkItem();
 
-     QString getName() const;
+     int       type() const;
+     QString   getId() const;
+     /// @brief Возвращает связь как логический элемент
+     Link      getLink() const;
 
      /// @brief Формирует логический элемент
-     /// @exception
+     ///        Вызывает формирование автоматов входящих в эту связь
      void formLink();
-     void debug();
-     int type() const;
 };
 
 

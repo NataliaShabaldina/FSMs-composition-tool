@@ -11,6 +11,9 @@
 #include <QApplication>
 #include <QMenu>
 
+/// @brief Класс автомата как графического итема
+///        Содержит в себе логический элемент автомата
+///        И отвечает за его формирование
 class FsmItem : public CommonItem
 {
 private:
@@ -20,10 +23,13 @@ private:
 
      /// @brief Используется для задания начального идентификатора автомата
      int number_;
+
      /// @brief Текстовый итем - отвечает за отображение id_ автомата
      QGraphicsTextItem* idItem_;
+
      /// @brief Файл прикреплённый к автомату черещ onAtachFile()
      QFile file_;
+
      /// @brief Соответствующий логический элемент автомата
      Fsm fsm_;
 private:
@@ -45,15 +51,16 @@ protected:
 public:
      FsmItem(QGraphicsItem* parent = nullptr);
      ~FsmItem();
-     QString getId() const;
+
+     int       type()  const;
+     QString   getId() const;
 
      /// @brief Возвращает логический элемент-автомат
      Fsm getFsm() const;
 
      /// @brief Формирует fsm_ поле
+     ///        Вызывается в соответствующей связи
      void formFsm();
-
-     int type() const;
 };
 
 #endif // FSMITEM_H

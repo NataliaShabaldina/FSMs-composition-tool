@@ -9,8 +9,6 @@
 /// @brief Класс-прокладка для уменьшения дублирования кода в item-ах
 class CommonItem : public QGraphicsItem
 {
-private:
-
 protected:
      // Используется для нумерации автоматов
      // Увеличивается в конструкторе
@@ -33,8 +31,6 @@ protected:
 
      /// @brief Удаляет элемент со сцены
      void removeItem();
-
-
 };
 
 #endif // COMMONITEM_H

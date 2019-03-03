@@ -7,11 +7,6 @@
 #include <vector>
 #include <QDebug>
 
-
-using fsmVector = std::vector<Fsm>;
-using linkVector = std::vector<Link>;
-using compositionVector = std::vector<Composition>;
-
 Scene::Scene(QObject* parent)
      : QGraphicsScene(parent)
 {

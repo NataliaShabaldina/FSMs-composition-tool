@@ -23,9 +23,14 @@ LinkItem::LinkItem(QGraphicsItem* parent)
      endPoint_ = QPointF(standartLenght + globals::penWidth, standartWidth/2);
 }
 
-QString LinkItem::getName() const
+QString LinkItem::getId() const
 {
      return idItem_->toPlainText();
+}
+
+Link LinkItem::getLink() const
+{
+     return link_;
 }
 
 void LinkItem::formLink()
@@ -42,36 +47,44 @@ void LinkItem::formLink()
           {
                if ( globals::customTypes::fsm == item->type())
                {
-                    fsmItems.append(dynamic_cast<FsmItem*>(item));
+
+                    FsmItem* fsm = dynamic_cast<FsmItem*>(item);
+                    fsm->formFsm();
+                    fsmItems.append(fsm);
                }
           }
           return fsmItems;
      };
 
-     QList<FsmItem*> collidingFsms = removeNotFsms(collidingItems());
-     Fsm inputFsm = Fsm();
-     Fsm outputFsm = Fsm();
-     for( const auto& fsm : collidingFsms )
+     auto form = [&containsPoint, &removeNotFsms, this]()
      {
-          if( containsPoint(fsm, startPoint_) )
+          QList<FsmItem*> collidingFsms = removeNotFsms(this->collidingItems());
+          Fsm inputFsm = Fsm();
+          Fsm outputFsm = Fsm();
+          for( const auto& fsm : collidingFsms )
           {
-               outputFsm = fsm->getFsm();
+               if( containsPoint(fsm, startPoint_) )
+               {
+                    outputFsm = fsm->getFsm();
+               }
+               else if ( containsPoint(fsm, endPoint_ ) )
+               {
+                    inputFsm = fsm->getFsm();
+               }
+               else
+               {
+                    /// @todo Оформить исключение
+                    throw;
+               }
           }
-          else if ( containsPoint(fsm, endPoint_ ) )
-          {
-               inputFsm = fsm->getFsm();
-          }
-          else
-          {
-               /// @todo Оформить исключение
-               throw;
-          }
-     }
-     link_ = Link(idItem_->toPlainText(), inputFsm, outputFsm);
+          return Link(getId(), inputFsm, outputFsm);
+     };
+
+     link_ = form();
 }
 
 #ifdef QT_DEBUG
-void LinkItem::debug()
+void LinkItem::printDebugInfo()
 {
      formLink();
      qDebug() << link_.getId();
@@ -131,7 +144,7 @@ void LinkItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 #ifdef QT_DEBUG
      else if (currAct == formAction)
      {
-          debug();
+          printDebugInfo();
      }
 #endif //QT_DEBUG
 }

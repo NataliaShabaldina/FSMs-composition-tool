@@ -14,10 +14,9 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
      Q_OBJECT
-
-public:
-     explicit MainWindow(QWidget *parent = nullptr);
-     ~MainWindow();
+private:
+     Ui::MainWindow* ui_;
+     Scene scene_;
 
 public slots:
      /// !!!Слоты вида on_btnName_clicked() коннектятся с сигналом автоматически!!!
@@ -36,9 +35,9 @@ public slots:
 
      void on_delButt_clicked();
 
-private:
-     Ui::MainWindow* ui_;
-     Scene scene_;
+public:
+     explicit MainWindow(QWidget *parent = nullptr);
+     ~MainWindow();
 };
 
 #endif // MAINWINDOW_H
