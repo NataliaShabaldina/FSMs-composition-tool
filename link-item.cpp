@@ -120,6 +120,7 @@ void LinkItem::paint(QPainter* painter,
                    const QStyleOptionGraphicsItem*,
                    QWidget*)
 {
+     Q_UNUSED(painter);
 }
 
 void LinkItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
@@ -161,6 +162,7 @@ void LinkItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void LinkItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
      rotate();
+     QGraphicsItem::mouseDoubleClickEvent(event);
 }
 
 LinkItem::~LinkItem()
