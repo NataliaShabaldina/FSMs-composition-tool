@@ -41,3 +41,5 @@ void Scene::addComposition()
      addItem(compostion);
      compositions_.push_back(compostion);
 }
+
+

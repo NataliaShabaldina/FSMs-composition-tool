@@ -25,7 +25,7 @@ private:
      int number_;
 
      /// @brief Текстовый итем - отвечает за отображение id_ автомата
-     QGraphicsTextItem* idItem_;
+     QGraphicsTextItem* nameItem_;
 
      /// @brief Файл прикреплённый к автомату черещ onAtachFile()
      QFile file_;
@@ -53,7 +53,7 @@ public:
      ~FsmItem();
 
      int       type()  const;
-     QString   getId() const;
+     QString   getName() const;
 
      /// @brief Возвращает логический элемент-автомат
      Fsm getFsm() const;

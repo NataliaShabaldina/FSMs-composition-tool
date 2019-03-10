@@ -4,22 +4,23 @@
 #include <QAction>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QRegularExpression>
 
 FsmItem::FsmItem(QGraphicsItem* parent)
      : CommonItem(parent)
 {
      number_ = ++fsmNumber;
 
-     idItem_ = new QGraphicsTextItem(QString::number(number_), this);
-     idItem_->moveBy(55, 25);
-     idItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
+     nameItem_ = new QGraphicsTextItem(QString::number(number_), this);
+     nameItem_->moveBy(55, 25);
+     nameItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
 
      file_.setFileName("");
 }
 
-QString FsmItem::getId() const
+QString FsmItem::getName() const
 {
-     return idItem_->toPlainText();
+     return nameItem_->toPlainText();
 }
 
 Fsm FsmItem::getFsm() const
@@ -29,7 +30,7 @@ Fsm FsmItem::getFsm() const
 
 void FsmItem::formFsm()
 {
-     fsm_ = Fsm( "", getId() );
+     fsm_ = Fsm( getName(), getName().left(4) );
 }
 
 int FsmItem::type() const
@@ -71,6 +72,16 @@ void FsmItem::onAttachFile()
                return;
           }
      }
+
+     auto getFileName = [](const QString& filePath)
+     {
+          QRegularExpression pattern(".*\\.aut$");
+          // Получаем /filename.aut, удаляем слэш
+          auto result = pattern.match(filePath, 1).captured().remove(0, 2);
+          return result;
+     };
+
+     file_.copy( getFileName(filePath) );
 }
 
 void FsmItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
