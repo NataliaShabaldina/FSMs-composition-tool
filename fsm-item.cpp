@@ -73,15 +73,13 @@ void FsmItem::onAttachFile()
           }
      }
 
-     auto getFileName = [](const QString& filePath)
+     auto getFileName = [](const QFile& file)
      {
-          QRegularExpression pattern(".*\\.aut$");
-          // Получаем /filename.aut, удаляем слэш
-          auto result = pattern.match(filePath, 1).captured().remove(0, 2);
-          return result;
+          QFileInfo fileInfo(file.fileName());
+          return fileInfo.fileName();
      };
 
-     file_.copy( getFileName(filePath) );
+     file_.copy( getFileName(file_) );
 }
 
 void FsmItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
