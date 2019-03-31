@@ -57,6 +57,7 @@ void CompositionItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
      else if (currAct == formAction)
      {
           formComposition();
+          composition_.formXmlFile();
           printFsmsAndLinks();
      }
 }

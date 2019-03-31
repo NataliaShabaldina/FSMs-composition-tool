@@ -20,6 +20,8 @@ private:
 public:
      Composition(fsmVector fsms = fsmVector(), linkVector links = linkVector());
 
+     void formXmlFile() const;
+
      fsmVector getFsms() const;
      linkVector getLinks() const;
 };
