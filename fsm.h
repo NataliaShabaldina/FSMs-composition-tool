@@ -15,6 +15,9 @@ public:
 
      QString getName() const;
      QString getId() const;
+
+     /// @brief Если имя автомата пустое - это внешний относительно композиции автомат(на картинке его нет)
+     bool isExternal() const;
 };
 
 #endif // FSM_H

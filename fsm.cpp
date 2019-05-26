@@ -16,4 +16,7 @@ QString Fsm::getId() const
      return id_;
 }
 
-
+bool Fsm::isExternal() const
+{
+     return name_.isEmpty();
+}

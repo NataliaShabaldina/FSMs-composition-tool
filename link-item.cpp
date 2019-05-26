@@ -5,6 +5,7 @@
 
 #include <QAction>
 #include <QMenu>
+#include <QMessageBox>
 
 #include <QDebug>
 
@@ -18,6 +19,7 @@ LinkItem::LinkItem(QGraphicsItem* parent)
      idItem_->moveBy(standartLenght/2, 0);
      idItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
      idItem_->setFlag(GraphicsItemFlag::ItemIgnoresTransformations);
+     idItem_->setFlag(GraphicsItemFlag::ItemIsMovable);
 
      startPoint_ = QPointF(0, standartWidth/2);
      endPoint_ = QPointF(standartLenght + globals::penWidth, standartWidth/2);
@@ -71,12 +73,13 @@ void LinkItem::formLink()
                {
                     inputFsm = fsm->getFsm();
                }
-               else
-               {
-                    /// @todo Оформить исключение
-                    throw;
-               }
           }
+
+          if(inputFsm.isExternal() && outputFsm.isExternal())
+          {
+               QMessageBox::warning(nullptr, "Link problem", "One of the links doest't connect any FSM");
+          }
+
           return Link(getId(), inputFsm, outputFsm);
      };
 
