@@ -17,29 +17,29 @@ Scene::Scene(const QRectF &sceneRect, QObject *parent)
 {
 }
 
-void Scene::addFsm()
+FsmItem* Scene::addFsm()
 {
      auto fsm = new FsmItem;
      fsm->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
      addItem(fsm);
-     fsms_.push_back(fsm);
+     return fsm;
 }
 
-void Scene::addLink()
+LinkItem* Scene::addLink()
 {
      auto link = new LinkItem;
      link->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
      addItem(link);
-     links_.push_back(link);
+     return link;
 }
 
-void Scene::addComposition()
+CompositionItem* Scene::addComposition()
 {
      auto compostion = new CompositionItem;
      compostion->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsFocusable);
      compostion->setZValue(globals::behindAllItems);
      addItem(compostion);
-     compositions_.push_back(compostion);
+     return compostion;
 }
 
 

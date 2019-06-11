@@ -17,6 +17,4 @@ public:
                         QWidget*);
 };
 
-
-
 #endif // ARROWITEM_H

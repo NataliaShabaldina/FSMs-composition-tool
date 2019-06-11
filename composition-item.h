@@ -33,10 +33,13 @@ public:
 
      int type() const;
 
-#ifdef QT_DEBUG
+     Composition getComposition() const;
+
+
      // Добавляет контекстное меню, позволяющее сформировать связь
      void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
+     #ifdef QT_DEBUG
      // Выводит в qDebug() автоматы и связи, входящие в композицию
      void printFsmsAndLinks();
 #endif //QT_DEBUG

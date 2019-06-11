@@ -49,7 +49,7 @@ protected:
      virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 public:
-     FsmItem(QGraphicsItem* parent = nullptr);
+     FsmItem(QGraphicsItem* parent = nullptr, QString name = "");
      ~FsmItem();
 
      int       type()  const;

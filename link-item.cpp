@@ -12,7 +12,7 @@
 LinkItem::LinkItem(QGraphicsItem* parent)
      : CommonItem (parent)
 {
-     number_ = ++linkNumber;
+     number_ = linkNumber++;
 
      arrowItem_ = new ArrowItem(this);
      idItem_ = new QGraphicsTextItem(QString::number(number_), this);

@@ -1,10 +1,12 @@
 #include "composition.h"
 
-#include <QFile>
 #include <QXmlStreamWriter>
+#include <QtXmlPatterns>
+#include <QMessageBox>
+
 
 Composition::Composition(fsmVector fsms, linkVector links)
-     : fsms_(std::move(fsms)), links_(std::move(links))
+     : fsms_(fsms), links_(links)
 {
 
 }
@@ -46,6 +48,8 @@ void Composition::formXmlFile() const
           }
      };
 
+     xmlWriter.writeStartElement("start");
+
      xmlWriter.writeStartElement("composition"); // <composition>
      for(const auto& fsm : fsms_)
      {
@@ -77,6 +81,10 @@ void Composition::formXmlFile() const
      }
      xmlWriter.writeEndElement();// </channels>
 
+     xmlWriter.writeEndElement();// </start>
+
      xmlWriter.writeEndDocument();// XML END
      xmlCompositionFile.close();
 }
+
+

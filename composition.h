@@ -5,6 +5,8 @@
 #include "link.h"
 #include "globals.h"
 
+#include <QFile>
+
 #include <vector>
 
 /// @brief Композиция как логический элемент

@@ -6,14 +6,15 @@
 #include <QMessageBox>
 #include <QRegularExpression>
 
-FsmItem::FsmItem(QGraphicsItem* parent)
+FsmItem::FsmItem(QGraphicsItem* parent, QString name)
      : CommonItem(parent)
 {
-     number_ = ++fsmNumber;
+     number_ = fsmNumber++;
 
-     nameItem_ = new QGraphicsTextItem(QString::number(number_), this);
+     nameItem_ = new QGraphicsTextItem(name.isEmpty() ? QString::number(number_) : name, this);
      nameItem_->moveBy(55, 25);
      nameItem_->setTextInteractionFlags(Qt::TextEditorInteraction);
+     nameItem_->setFlag(GraphicsItemFlag::ItemIsMovable);
 
      file_.setFileName("");
 }
