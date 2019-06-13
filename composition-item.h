@@ -35,7 +35,6 @@ public:
 
      Composition getComposition() const;
 
-
      // Добавляет контекстное меню, позволяющее сформировать связь
      void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 

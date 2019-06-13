@@ -22,6 +22,8 @@ private:
 public:
      Composition(fsmVector fsms = fsmVector(), linkVector links = linkVector());
 
+
+     void formBalm2Script() const;
      void formXmlFile() const;
 
      fsmVector getFsms() const;
