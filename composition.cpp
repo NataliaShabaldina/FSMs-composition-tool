@@ -42,7 +42,8 @@ void Composition::formBalm2Script() const
 
      linkVector myLinks = getLinks();
 
-     QString channels1_inp = "", channels1_out = "", channels2_inp = "", channels2_out = "", ext_channel1 = "", ext_channel2 = "";
+     QString channels1_inp, channels1_out, channels2_inp, channels2_out, ext_channel1, ext_channel2;
+     QStringList oldNamesInp, oldNamesOut; // Внешние для композиции каналы
      int E_number=0;
      for (size_t i = 0; i < myLinks.size(); i++)
      {
@@ -52,7 +53,9 @@ void Composition::formBalm2Script() const
                channels1_inp += '|';
                if ( myLinks[i].getOutputFsm().getId()=="" )
                {
-                    ext_channel2 += "E" + QString::number(E_number)+',';
+                    //ext_channel2 += "E" + QString::number(E_number)+',';
+                    ext_channel2 += myLinks[i].getId() + ',';
+                    oldNamesInp.push_back(myLinks[i].getId());
                }
                E_number++;
           }
@@ -63,7 +66,9 @@ void Composition::formBalm2Script() const
                channels1_out += '|';
                if ( myLinks[i].getInputFsm().getId() == "" )
                {
-                    ext_channel2 += "E" + QString::number(E_number) + ',';
+                    //ext_channel2 += "E" + QString::number(E_number) + ',';
+                    ext_channel2 += myLinks[i].getId() + ',';
+                    oldNamesOut.push_back(myLinks[i].getId());
                }
                E_number++;
           }
@@ -74,7 +79,9 @@ void Composition::formBalm2Script() const
                channels2_inp += '|';
                if ( myLinks[i].getOutputFsm().getId() == "" )
                {
-                    ext_channel1 += "E" + QString::number(E_number) + ',';
+                    //ext_channel1 += "E" + QString::number(E_number) + ',';
+                    ext_channel1 += myLinks[i].getId() + ',';
+                    oldNamesInp.push_back(myLinks[i].getId());
                }
                E_number++;
           }
@@ -85,7 +92,9 @@ void Composition::formBalm2Script() const
                channels2_out += '|';
                if (myLinks[i].getInputFsm().getId()=="")
                {
-                    ext_channel1 += "E" + QString::number(E_number) + ',';
+                    //ext_channel1 += "E" + QString::number(E_number) + ',';
+                    ext_channel1 += myLinks[i].getId() + ',';
+                    oldNamesOut.push_back(myLinks[i].getId());
                }
                E_number++;
           }
@@ -99,20 +108,112 @@ void Composition::formBalm2Script() const
      QString chan_inp = channels1_inp+ext_channel1;
      QString chan_out = channels1_out+ext_channel2;
 
+     auto addPrefix = [](const QString& name, const QString& preffix){
+          return preffix + name;
+     };
+
      const static QString balm("balm -c ");
      const static QString quote("\"");
-     QString read_para1 = balm + quote + "read_para_fsm " + channels1_inp + channels1_out + " " + name1 + " poly" + name1 + quote;
-     QString read_para2 = balm + quote + "read_para_fsm " + channels2_inp + channels2_out + " " + name2 + " poly" + name2+ quote;
-     QString chan_sync = balm + quote + "chan_sync " + channels1_inp + channels1_out + "|E " + channels2_inp + channels2_out+ "|E  poly" + name1 + " poly" + name2 + " sync" + name1 + " sync" + name2+ quote;
-     QString expansion = balm + quote + "expansion " + ext_channel1 + "," + ext_channel2 + name2 + " exp" + name2 + quote;
-     QString product = balm + quote + "product poly" + name1 + " exp" + name2 + " pro.aut" + quote;
-     QString restriction = balm + quote + "restriction " + ext_channel1 + "," + ext_channel2 + " pro.aut" + " restr.aut" + quote;
-     QString support = balm + quote + "support " + chan_inp + ","+ chan_out + ",E("+ QString::number(E_number) + ") restr.aut supp.aut" + quote;
-     QString write_para = balm + quote + "write_para_fsm " + channels1_inp + channels1_out + "|E ext_channel1|ext_channel2 supp.aut fsm.aut" + quote;
+     QString polyname1 = addPrefix(name1, "poly");
+     QString polyname2 = addPrefix(name2, "poly");
+     QString syncname1 = addPrefix(polyname1, "sync");
+     QString syncname2 = addPrefix(polyname2, "sync");
+     QString expname1 = addPrefix(syncname1, "exp");
+     QString expname2 = addPrefix(syncname2, "exp");
+     QString supExtName1 = addPrefix(expname1, "sup");
+     QString supExtName2 = addPrefix(expname2, "sup");
+
+     auto getExpansion = [&ext_channel1, &ext_channel2, syncname1, syncname2, &expname1, &expname2] ()
+     {
+          QString expCommand1, expCommand2;
+          if(!ext_channel2.isEmpty())
+          {
+               expCommand2 = balm + quote + "expansion " + ext_channel2 + " " + syncname2 + " " + expname2 + quote;
+          }
+          else
+          {
+               expname2 = syncname2;
+          }
+          if(!ext_channel1.isEmpty())
+          {
+               expCommand1 = balm + quote + "expansion " + ext_channel1 + " " + syncname1 + " " + expname1 + quote;
+          }
+          else
+          {
+               expname1 = syncname1;
+          }
+
+          return expCommand1 + "\n" + expCommand2;
+     };
+
+     auto getExtChannels = [ext_channel1, ext_channel2](){
+          QString result;
+          if(!ext_channel1.isEmpty())
+          {
+               result += ext_channel1;
+          }
+          if(!ext_channel2.isEmpty() && !result.isEmpty())
+          {
+               result += "," + ext_channel2;
+          }
+          else if (result.isEmpty())
+          {
+               result += ext_channel2;
+          }
+          return result;
+     };
+
+     auto getFormatedExtChannels = []( const QStringList& ext_chan1, const QStringList& ext_chan2 )
+     {
+          QString ext_chans;
+          if ( !ext_chan1.empty() && !ext_chan2.empty() )
+          {
+               ext_chans = ext_chan1.join("|") + "|" + ext_chan2.join("|");
+          }
+          else if ( ext_chan1.empty() )
+          {
+               ext_chans = ext_chan2.join("|");
+          }
+          else
+          {
+               ext_chans = ext_chan1.join("|");
+          }
+          return ext_chans;
+     };
+
+     QStringList oldNames = oldNamesInp + oldNamesOut;
+
+     QString read_para1 = balm + quote + "read_para_fsm " + channels1_inp + channels1_out + " " + name1 + " " + polyname1 + quote;
+     QString read_para2 = balm + quote + "read_para_fsm " + channels2_inp + channels2_out + " " + name2 + " " + polyname2 + quote;
+     QString chan_sync = "error";
+     QString product = "error";
+     QString suportExp = "error";
+     QString expansion = getExpansion();
+     if( QString( channels2_inp + channels2_out ).size() >= QString( channels1_inp + channels1_out ).size() )
+     {
+          chan_sync = balm + quote + "chan_sync " + channels2_inp + channels2_out + "|E " + channels1_inp + channels1_out + "|E  " + polyname2 + " " + polyname1 + " " + syncname2 + " " + syncname1 + quote;
+          auto alphabetSize = channels2_inp.split("|").size() - 1 + channels2_out.split("|").size();
+          suportExp = balm + quote + "support " + channels2_inp.split("|").join(",") + channels2_out.split("|").join(",") + ",E(" + QString::number(alphabetSize) + ") " + expname1 + " " + supExtName1 + quote;
+          product = balm + quote + "product " + expname2 + " " + /*expname1*/ supExtName1 + " pro.aut" + quote;
+
+     }
+     else
+     {
+          chan_sync = balm + quote + "chan_sync " + channels1_inp + channels1_out + "|E " + channels2_inp + channels2_out + "|E  " + polyname1 + " " + polyname2 + " " + syncname1 + " " + syncname2 + quote;
+          auto alphabetSize = channels1_inp.split("|").size() - 1 + channels1_out.split("|").size();
+          suportExp = balm + quote + "support " + channels1_inp.split("|").join(",") + channels1_out.split("|").join(",") + ",E(" + QString::number( alphabetSize ) + ") " + expname2 + " " + supExtName2 + quote;
+          product = balm + quote + "product " + expname1 + " " + /*expname2*/supExtName2 + " pro.aut" + quote;
+     }
+     QString restriction = balm + quote + "restriction " + getExtChannels() + " pro.aut" + " restr.aut" + quote;
+     QString support_restr = balm + quote + "support " + oldNames.join(",") + ",E("+ QString::number(oldNames.size()) + ") restr.aut supp.aut" + quote;
+     QStringList ext_chan1 = ext_channel1 != "" ? ext_channel1.split(",") : QStringList();
+     QStringList ext_chan2 = ext_channel2 != "" ? ext_channel2.split(",") : QStringList();
+     QString ext_chans = getFormatedExtChannels(ext_chan1, ext_chan2);
+     QString write_para = balm + quote + "write_para_fsm " + oldNames.join("|") + "|E " + ext_chans + " supp.aut fsm.aut" + quote;
 
      toScript << read_para1 << "\n" << read_para2 << "\n" << chan_sync << "\n" <<
-                 expansion << "\n" << product << "\n" << restriction << "\n" <<
-                 support << "\n" << write_para;
+                 expansion << "\n" << suportExp << "\n" << product << "\n" << restriction << "\n" <<
+                 support_restr << "\n" << write_para;
 }
 
 void Composition::formXmlFile() const

@@ -88,7 +88,7 @@
       <item>
        <widget class="QPushButton" name="generateButt">
         <property name="text">
-         <string> Generate XML</string>
+         <string>Go</string>
         </property>
        </widget>
       </item>
