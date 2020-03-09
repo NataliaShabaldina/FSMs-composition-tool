@@ -211,7 +211,9 @@ void Composition::formBalm2Script() const
      QString ext_chans = getFormatedExtChannels(ext_chan1, ext_chan2);
      QString write_para = balm + quote + "write_para_fsm " + oldNames.join("|") + "|E " + ext_chans + " supp.aut fsm.aut" + quote;
 
-     toScript << read_para1 << "\n" << read_para2 << "\n" << chan_sync << "\n" <<
+     QString pyEditScript = "python main.py " + polyname1 + " " + syncname1 + " " + polyname2 + " " + syncname2;
+
+     toScript << read_para1 << "\n" << read_para2 << "\n" << chan_sync << "\n" << pyEditScript << "\n" <<
                  expansion << "\n" << suportExp << "\n" << product << "\n" << restriction << "\n" <<
                  support_restr << "\n" << write_para;
 }
