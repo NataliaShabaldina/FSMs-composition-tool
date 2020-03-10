@@ -206,8 +206,8 @@ void Composition::formBalm2Script() const
      }
      QString restriction = balm + quote + "restriction " + getExtChannels() + " pro.aut" + " restr.aut" + quote;
      QString support_restr = balm + quote + "support " + oldNames.join(",") + ",E("+ QString::number(oldNames.size()) + ") restr.aut supp.aut" + quote;
-     QStringList ext_chan1 = ext_channel1 != "" ? ext_channel1.split(",") : QStringList();
-     QStringList ext_chan2 = ext_channel2 != "" ? ext_channel2.split(",") : QStringList();
+     QStringList ext_chan1 = ( ext_channel1 != "" ) ? ext_channel1.split(",") : QStringList();
+     QStringList ext_chan2 = ( ext_channel2 != "" ) ? ext_channel2.split(",") : QStringList();
      QString ext_chans = getFormatedExtChannels(ext_chan1, ext_chan2);
      QString write_para = balm + quote + "write_para_fsm " + oldNames.join("|") + "|E " + ext_chans + " supp.aut fsm.aut" + quote;
 
