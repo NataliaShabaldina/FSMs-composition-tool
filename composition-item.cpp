@@ -64,6 +64,7 @@ void CompositionItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
           formComposition();
           //composition_.formXmlFile();
           composition_.formBalm2Script();
+          system("script.sh");
 #ifdef QT_DEBUG
           printFsmsAndLinks();
 #endif
