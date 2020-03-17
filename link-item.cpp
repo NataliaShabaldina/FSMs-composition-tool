@@ -91,8 +91,8 @@ void LinkItem::printDebugInfo()
 {
      formLink();
      qDebug() << link_.getId();
-     qDebug() << "input: " << link_.getInputFsm().getId();
-     qDebug() << "output: " << link_.getOutputFsm().getId();
+     qDebug() << "input: " << link_.getInputFsm().getName();
+     qDebug() << "output: " << link_.getOutputFsm().getName();
 
 }
 #endif //QT_DEBUG
