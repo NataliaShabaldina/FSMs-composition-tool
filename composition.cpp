@@ -151,7 +151,7 @@ void Composition::formBalm2Script() const
           }
           if( !ext_channel_input_1.isEmpty() && !ext_channel_output_1.isEmpty() )
           {
-               expCommand1 = balm + quote + "expansion " + ext_channel_input_1 + "," + ext_channel_output_2 + " " + syncname1 + " " + expname1 + quote;
+               expCommand1 = balm + quote + "expansion " + ext_channel_input_1 + "," + ext_channel_output_1 + " " + syncname1 + " " + expname1 + quote;
           }
           else if( !ext_channel_input_1.isEmpty() )
           {
@@ -159,7 +159,7 @@ void Composition::formBalm2Script() const
           }
           else if( !ext_channel_output_1.isEmpty() )
           {
-               expCommand1 = balm + quote + "expansion " + ext_channel_input_1 + " " + syncname1 + " " + expname1 + quote;
+               expCommand1 = balm + quote + "expansion " + ext_channel_output_1 + " " + syncname1 + " " + expname1 + quote;
           }
           else
           {
