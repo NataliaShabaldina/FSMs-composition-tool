@@ -3,6 +3,8 @@
 #include "link-item.h"
 #include "globals.h"
 
+#include <iostream>
+
 #ifdef QT_DEBUG
 #include <QDebug>
 #endif //QT_DEBUG
@@ -64,8 +66,10 @@ void CompositionItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
           formComposition();
           //composition_.formXmlFile();
           composition_.formBalm2Script();
-          system("script.sh");
+          int result = system("sh script.sh");
+          //popen("sh script.sh", "r");
 #ifdef QT_DEBUG
+          std::cout << "Result: " << result << std::endl;
           printFsmsAndLinks();
 #endif
      }
@@ -76,11 +80,11 @@ void CompositionItem::printFsmsAndLinks()
 {
      for(const auto& fsm : composition_.getFsms())
      {
-          qDebug() << "FSM: " << fsm.getId();
+          qDebug() << "FSM: " << fsm.getName();
      }
      for(const auto& link : composition_.getLinks())
      {
-          qDebug() << "Link: " << link.getId() << "\n Input FSM: " << link.getInputFsm().getId() << "   Output FSM: " << link.getOutputFsm().getId();
+          qDebug() << "Link: " << link.getId() << "\n Input FSM: " << link.getInputFsm().getName() << "   Output FSM: " << link.getOutputFsm().getName();
      }
 }
 #endif //QT_DEBUG

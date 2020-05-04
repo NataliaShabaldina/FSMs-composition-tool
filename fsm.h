@@ -8,13 +8,15 @@ class Fsm
 {     
 private:
      QString name_;
-     QString id_;
+     QString fullPath_;
+     QString fileName_;
 
 public:
-     Fsm(QString name = "", QString id = "");
+     Fsm(const QString& name = "", const QString& fullPath = "", const QString& fileName = "");
 
      QString getName() const;
-     QString getId() const;
+     QString getFullPath() const;
+     QString getFileName() const;
 
      /// @brief Если имя автомата пустое - это внешний относительно композиции автомат(на картинке его нет)
      bool isExternal() const;

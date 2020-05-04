@@ -31,7 +31,9 @@ Fsm FsmItem::getFsm() const
 
 void FsmItem::formFsm()
 {
-     fsm_ = Fsm( getName(), getName().left(4) );
+     QString fullPath = file_.fileName();
+     QString fileName = QFileInfo(fullPath).fileName();
+     fsm_ = Fsm( getName(), fullPath, fileName );
 }
 
 int FsmItem::type() const

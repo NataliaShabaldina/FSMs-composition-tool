@@ -37,8 +37,15 @@ void Composition::formBalm2Script() const
      }
      QTextStream toScript(&script);
 
-     QString name1 = myFSMs[0].getId() + ".aut";
-     QString name2 = myFSMs[1].getId() + ".aut";
+     QString filePath1 = myFSMs[0].getFullPath();
+     QString fileName1 = myFSMs[0].getFileName();
+     QString filePath2 = myFSMs[1].getFullPath();
+     QString fileName2 = myFSMs[1].getFileName();
+
+     Q_ASSERT(!filePath1.isEmpty());
+     Q_ASSERT(!fileName1.isEmpty());
+     Q_ASSERT(!filePath2.isEmpty());
+     Q_ASSERT(!fileName2.isEmpty());
 
      linkVector myLinks = getLinks();
 
@@ -47,11 +54,11 @@ void Composition::formBalm2Script() const
      int E_number=0;
      for (size_t i = 0; i < myLinks.size(); i++)
      {
-          if (myLinks[i].getInputFsm().getId() == myFSMs[0].getId())
+          if (myLinks[i].getInputFsm().getName() == myFSMs[0].getName())
           {
                channels1_inp += myLinks[i].getId();
                channels1_inp += '|';
-               if ( myLinks[i].getOutputFsm().getId()=="" )
+               if ( myLinks[i].getOutputFsm().getName()=="" )
                {
                     //ext_channel2 += "E" + QString::number(E_number)+',';
                     ext_channel_input_2 += myLinks[i].getId() + ',';
@@ -60,11 +67,11 @@ void Composition::formBalm2Script() const
                E_number++;
           }
 
-          if ( myLinks[i].getOutputFsm().getId() == myFSMs[0].getId() )
+          if ( myLinks[i].getOutputFsm().getName() == myFSMs[0].getName() )
           {
                channels1_out += myLinks[i].getId();
                channels1_out += '|';
-               if ( myLinks[i].getInputFsm().getId() == "" )
+               if ( myLinks[i].getInputFsm().getName() == "" )
                {
                     //ext_channel2 += "E" + QString::number(E_number) + ',';
                     ext_channel_output_2 += myLinks[i].getId() + ',';
@@ -73,11 +80,11 @@ void Composition::formBalm2Script() const
                E_number++;
           }
 
-          if ( myLinks[i].getInputFsm().getId() == myFSMs[1].getId() )
+          if ( myLinks[i].getInputFsm().getName() == myFSMs[1].getName() )
           {
                channels2_inp += myLinks[i].getId();
                channels2_inp += '|';
-               if ( myLinks[i].getOutputFsm().getId() == "" )
+               if ( myLinks[i].getOutputFsm().getName() == "" )
                {
                     //ext_channel1 += "E" + QString::number(E_number) + ',';
                     ext_channel_input_1 += myLinks[i].getId() + ',';
@@ -86,11 +93,11 @@ void Composition::formBalm2Script() const
                E_number++;
           }
 
-          if (myLinks[i].getOutputFsm().getId() == myFSMs[1].getId())
+          if (myLinks[i].getOutputFsm().getName() == myFSMs[1].getName())
           {
                channels2_out += myLinks[i].getId();
                channels2_out += '|';
-               if (myLinks[i].getInputFsm().getId()=="")
+               if (myLinks[i].getInputFsm().getName()=="")
                {
                     //ext_channel1 += "E" + QString::number(E_number) + ',';
                     ext_channel_output_1 += myLinks[i].getId() + ',';
@@ -113,8 +120,9 @@ void Composition::formBalm2Script() const
 
      const static QString balm("balm -c ");
      const static QString quote("\"");
-     QString polyname1 = addPrefix(name1, "poly");
-     QString polyname2 = addPrefix(name2, "poly");
+     const static QString streamRedirect(" &>> log.txt");
+     QString polyname1 = addPrefix(fileName1, "poly");
+     QString polyname2 = addPrefix(fileName2, "poly");
      QString syncname1 = addPrefix(polyname1, "sync");
      QString syncname2 = addPrefix(polyname2, "sync");
      QString expname1 = addPrefix(syncname1, "exp");
@@ -243,26 +251,26 @@ void Composition::formBalm2Script() const
 
      QStringList oldNames = oldNamesInp + oldNamesOut;
 
-     QString read_para1 = balm + quote + "read_para_fsm " + channels1_inp + channels1_out + " " + name1 + " " + polyname1 + quote;
-     QString read_para2 = balm + quote + "read_para_fsm " + channels2_inp + channels2_out + " " + name2 + " " + polyname2 + quote;
+     QString read_para1 = balm + quote + "read_para_fsm " + channels1_inp + channels1_out + " " + filePath1 + " " + polyname1 + quote + streamRedirect;
+     QString read_para2 = balm + quote + "read_para_fsm " + channels2_inp + channels2_out + " " + filePath2 + " " + polyname2 + quote + streamRedirect;
      QString chan_sync = "error";
      QString product = "error";
      QString suportExp = "error";
      QString expansion = getExpansion();
      if( QString( channels2_inp + channels2_out ).size() >= QString( channels1_inp + channels1_out ).size() )
      {
-          chan_sync = balm + quote + "chan_sync " + channels2_inp + channels2_out + "|E " + channels1_inp + channels1_out + "|E  " + polyname2 + " " + polyname1 + " " + syncname2 + " " + syncname1 + quote;
+          chan_sync = balm + quote + "chan_sync " + channels2_inp + channels2_out + "|E " + channels1_inp + channels1_out + "|E  " + polyname2 + " " + polyname1 + " " + syncname2 + " " + syncname1 + quote + streamRedirect;
           auto alphabetSize = channels2_inp.split("|").size() - 1 + channels2_out.split("|").size();
-          suportExp = balm + quote + "support " + channels2_inp.split("|").join(",") + channels2_out.split("|").join(",") + ",E(" + QString::number(alphabetSize) + ") " + expname1 + " " + supExtName1 + quote;
-          product = balm + quote + "product " + expname2 + " " + /*expname1*/ supExtName1 + " pro.aut" + quote;
+          suportExp = balm + quote + "support " + channels2_inp.split("|").join(",") + channels2_out.split("|").join(",") + ",E(" + QString::number(alphabetSize) + ") " + expname1 + " " + supExtName1 + quote + streamRedirect;
+          product = balm + quote + "product " + expname2 + " " + /*expname1*/ supExtName1 + " pro.aut" + quote + streamRedirect;
 
      }
      else
      {
-          chan_sync = balm + quote + "chan_sync " + channels1_inp + channels1_out + "|E " + channels2_inp + channels2_out + "|E  " + polyname1 + " " + polyname2 + " " + syncname1 + " " + syncname2 + quote;
+          chan_sync = balm + quote + "chan_sync " + channels1_inp + channels1_out + "|E " + channels2_inp + channels2_out + "|E  " + polyname1 + " " + polyname2 + " " + syncname1 + " " + syncname2 + quote + streamRedirect;
           auto alphabetSize = channels1_inp.split("|").size() - 1 + channels1_out.split("|").size();
-          suportExp = balm + quote + "support " + channels1_inp.split("|").join(",") + channels1_out.split("|").join(",") + ",E(" + QString::number( alphabetSize ) + ") " + expname2 + " " + supExtName2 + quote;
-          product = balm + quote + "product " + expname1 + " " + /*expname2*/supExtName2 + " pro.aut" + quote;
+          suportExp = balm + quote + "support " + channels1_inp.split("|").join(",") + channels1_out.split("|").join(",") + ",E(" + QString::number( alphabetSize ) + ") " + expname2 + " " + supExtName2 + quote + streamRedirect;
+          product = balm + quote + "product " + expname1 + " " + /*expname2*/supExtName2 + " pro.aut" + quote + streamRedirect;
      }
      QString restriction = balm + quote + "restriction " + getExtChannels() + " pro.aut" + " restr.aut" + quote;
      QString support_restr = balm + quote + "support " + oldNames.join(",") + ",E("+ QString::number(oldNames.size()) + ") restr.aut supp.aut" + quote;
@@ -291,7 +299,7 @@ void Composition::formXmlFile() const
 
      auto isExternal = [](const Fsm& fsm)
      {
-          return ( ( "" == fsm.getId() ) && ( "" == fsm.getName() ) );
+          return ( ( "" == fsm.getName() ) && ( "" == fsm.getName() ) );
      };
 
      auto writeFsmInfo = [&xmlWriter, &isExternal](const Fsm& fsm)
@@ -303,7 +311,7 @@ void Composition::formXmlFile() const
           else
           {
                xmlWriter.writeAttribute("type", "internal");
-               xmlWriter.writeAttribute("id_comp", fsm.getId());
+               xmlWriter.writeAttribute("id_comp", fsm.getName());
           }
      };
 
@@ -314,7 +322,7 @@ void Composition::formXmlFile() const
      {
           xmlWriter.writeStartElement("FSM");
           xmlWriter.writeAttribute("name", fsm.getName());
-          xmlWriter.writeAttribute("id", fsm.getId());
+          xmlWriter.writeAttribute("id", fsm.getName());
           xmlWriter.writeEndElement(); //</FSM>
      }
      xmlWriter.writeEndElement(); // </composition>
