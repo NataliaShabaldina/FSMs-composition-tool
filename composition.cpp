@@ -121,7 +121,6 @@ void Composition::formBalm2Script() const
 
      const static QString balm("balm -c ");
      const static QString quote("\"");
-     const static QString streamRedirect(" &>> log.txt");
      QString polyname1 = addPrefix(fileName1, "poly");
      QString polyname2 = addPrefix(fileName2, "poly");
      QString syncname1 = addPrefix(polyname1, "sync");
@@ -191,39 +190,43 @@ void Composition::formBalm2Script() const
 
      QStringList oldNames = oldNamesInp + oldNamesOut;
 
-     QString read_para1 = balm + quote + "read_para_fsm " + channels1_inp + channels1_out + " " + filePath1 + " " + polyname1 + quote + streamRedirect;
-     QString read_para2 = balm + quote + "read_para_fsm " + channels2_inp + channels2_out + " " + filePath2 + " " + polyname2 + quote + streamRedirect;
+     QString read_para1 = balm + quote + "read_para_fsm " + channels1_inp + channels1_out + " " + filePath1 + " " + polyname1 + quote;
+     QString read_para2 = balm + quote + "read_para_fsm " + channels2_inp + channels2_out + " " + filePath2 + " " + polyname2 + quote;
      QString chan_sync = "error";
      QString product = "error";
      QString suportExp = "error";
      QString expansion = getExpansion();
      if( QString( channels2_inp + channels2_out ).size() >= QString( channels1_inp + channels1_out ).size() )
      {
-          chan_sync = balm + quote + "chan_sync " + channels2_inp + channels2_out + "|E " + channels1_inp + channels1_out + "|E  " + polyname2 + " " + polyname1 + " " + syncname2 + " " + syncname1 + quote + streamRedirect;
+          chan_sync = balm + quote + "chan_sync " + channels2_inp + channels2_out + "|E " + channels1_inp + channels1_out + "|E  " + polyname2 + " " + polyname1 + " " + syncname2 + " " + syncname1 + quote;
           auto alphabetSize = channels2_inp.split("|").size() - 1 + channels2_out.split("|").size();
-          suportExp = balm + quote + "support " + channels2_inp.split("|").join(",") + channels2_out.split("|").join(",") + ",E(" + QString::number(alphabetSize) + ") " + expname1 + " " + supExtName1 + quote + streamRedirect;
-          product = balm + quote + "product " + expname2 + " " + /*expname1*/ supExtName1 + " pro.aut" + quote + streamRedirect;
+          suportExp = balm + quote + "support " + channels2_inp.split("|").join(",") + channels2_out.split("|").join(",") + ",E(" + QString::number(alphabetSize) + ") " + expname1 + " " + supExtName1 + quote;
+          product = balm + quote + "product " + expname2 + " " + /*expname1*/ supExtName1 + " pro.aut" + quote;
 
      }
      else
      {
-          chan_sync = balm + quote + "chan_sync " + channels1_inp + channels1_out + "|E " + channels2_inp + channels2_out + "|E  " + polyname1 + " " + polyname2 + " " + syncname1 + " " + syncname2 + quote + streamRedirect;
+          chan_sync = balm + quote + "chan_sync " + channels1_inp + channels1_out + "|E " + channels2_inp + channels2_out + "|E  " + polyname1 + " " + polyname2 + " " + syncname1 + " " + syncname2 + quote;
           auto alphabetSize = channels1_inp.split("|").size() - 1 + channels1_out.split("|").size();
-          suportExp = balm + quote + "support " + channels1_inp.split("|").join(",") + channels1_out.split("|").join(",") + ",E(" + QString::number( alphabetSize ) + ") " + expname2 + " " + supExtName2 + quote + streamRedirect;
-          product = balm + quote + "product " + expname1 + " " + /*expname2*/supExtName2 + " pro.aut" + quote + streamRedirect;
+          suportExp = balm + quote + "support " + channels1_inp.split("|").join(",") + channels1_out.split("|").join(",") + ",E(" + QString::number( alphabetSize ) + ") " + expname2 + " " + supExtName2 + quote;
+          product = balm + quote + "product " + expname1 + " " + /*expname2*/supExtName2 + " pro.aut" + quote;
      }
-     QString restriction = balm + quote + "restriction " + getExtChannels() + " pro.aut" + " restr.aut" + quote + streamRedirect;
-     QString support_restr = balm + quote + "support " + oldNames.join(",") + ",E("+ QString::number(oldNames.size()) + ") restr.aut supp.aut" + quote + streamRedirect;
+     QString restriction = balm + quote + "restriction " + getExtChannels() + " pro.aut" + " restr.aut" + quote;
+     QString support_restr = balm + quote + "support " + oldNames.join(",") + ",E("+ QString::number(oldNames.size()) + ") restr.aut supp.aut" + quote;
      QStringList ext_chan1 = ( ext_channel1 != "" ) ? ext_channel1.split(",") : QStringList();
      QStringList ext_chan2 = ( ext_channel2 != "" ) ? ext_channel2.split(",") : QStringList();
      QString ext_chans = getFormatedExtChannels(ext_chan1, ext_chan2);
-     QString write_para = balm + quote + "write_para_fsm " + oldNames.join("|") + "|E " + ext_chans + " supp.aut fsm.aut" + quote + streamRedirect;
+     QString write_para = balm + quote + "write_para_fsm " + oldNames.join("|") + "|E " + ext_chans + " supp.aut fsm.aut" + quote;
 
-     QString pyEditScript = "python main.py " + polyname1 + " " + syncname1 + " " + polyname2 + " " + syncname2;
+     QString pyEditScript = "python3 main.py " + polyname1 + " " + syncname1 + " " + polyname2 + " " + syncname2;
+     QString editedScriptStart = "sh edited_script.sh";
+     QString scriptStopper = "exit 25";
 
-     toScript << read_para1 << "\n" << read_para2 << "\n" << chan_sync << "\n" << pyEditScript << "\n" <<
-                 expansion << "\n" << suportExp << "\n" << product << "\n" << restriction << "\n" <<
+     toScript << read_para1 << "\n" << read_para2 << "\n" << chan_sync << "\n" << pyEditScript << "\n" << editedScriptStart << "\n" <<
+                 scriptStopper << "\n" << expansion << "\n" << suportExp << "\n" << product << "\n" << restriction << "\n" <<
                  support_restr << "\n" << write_para;
+
+     script.close();
 }
 
 void Composition::formXmlFile() const
