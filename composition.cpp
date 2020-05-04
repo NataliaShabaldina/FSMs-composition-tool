@@ -42,7 +42,7 @@ void Composition::formBalm2Script() const
 
      linkVector myLinks = getLinks();
 
-     QString channels1_inp, channels1_out, channels2_inp, channels2_out, ext_channel1, ext_channel2;
+     QString channels1_inp, channels1_out, channels2_inp, channels2_out, ext_channel_input_1, ext_channel_output_1, ext_channel_input_2, ext_channel_output_2;
      QStringList oldNamesInp, oldNamesOut; // Внешние для композиции каналы
      int E_number=0;
      for (size_t i = 0; i < myLinks.size(); i++)
@@ -54,7 +54,7 @@ void Composition::formBalm2Script() const
                if ( myLinks[i].getOutputFsm().getId()=="" )
                {
                     //ext_channel2 += "E" + QString::number(E_number)+',';
-                    ext_channel2 += myLinks[i].getId() + ',';
+                    ext_channel_input_2 += myLinks[i].getId() + ',';
                     oldNamesInp.push_back(myLinks[i].getId());
                }
                E_number++;
@@ -67,7 +67,7 @@ void Composition::formBalm2Script() const
                if ( myLinks[i].getInputFsm().getId() == "" )
                {
                     //ext_channel2 += "E" + QString::number(E_number) + ',';
-                    ext_channel2 += myLinks[i].getId() + ',';
+                    ext_channel_output_2 += myLinks[i].getId() + ',';
                     oldNamesOut.push_back(myLinks[i].getId());
                }
                E_number++;
@@ -80,7 +80,7 @@ void Composition::formBalm2Script() const
                if ( myLinks[i].getOutputFsm().getId() == "" )
                {
                     //ext_channel1 += "E" + QString::number(E_number) + ',';
-                    ext_channel1 += myLinks[i].getId() + ',';
+                    ext_channel_input_1 += myLinks[i].getId() + ',';
                     oldNamesInp.push_back(myLinks[i].getId());
                }
                E_number++;
@@ -93,7 +93,7 @@ void Composition::formBalm2Script() const
                if (myLinks[i].getInputFsm().getId()=="")
                {
                     //ext_channel1 += "E" + QString::number(E_number) + ',';
-                    ext_channel1 += myLinks[i].getId() + ',';
+                    ext_channel_output_1 += myLinks[i].getId() + ',';
                     oldNamesOut.push_back(myLinks[i].getId());
                }
                E_number++;
@@ -102,11 +102,10 @@ void Composition::formBalm2Script() const
 
      channels1_out.remove(channels1_out.size() - 1, 1);
      channels2_out.remove(channels2_out.size() - 1, 1);
-     ext_channel1.remove(ext_channel1.size() - 1, 1);
-     ext_channel2.remove(ext_channel2.size() - 1, 1);
-
-     QString chan_inp = channels1_inp+ext_channel1;
-     QString chan_out = channels1_out+ext_channel2;
+     ext_channel_input_1.remove(ext_channel_input_1.size() - 1, 1);
+     ext_channel_output_1.remove(ext_channel_output_1.size() - 1, 1);
+     ext_channel_input_2.remove(ext_channel_input_2.size() - 1, 1);
+     ext_channel_output_2.remove(ext_channel_output_2.size() - 1, 1);
 
      auto addPrefix = [](const QString& name, const QString& preffix){
           return preffix + name;
@@ -123,20 +122,36 @@ void Composition::formBalm2Script() const
      QString supExtName1 = addPrefix(expname1, "sup");
      QString supExtName2 = addPrefix(expname2, "sup");
 
-     auto getExpansion = [&ext_channel1, &ext_channel2, syncname1, syncname2, &expname1, &expname2] ()
+     auto getExpansion = [&ext_channel_input_1, &ext_channel_output_1, &ext_channel_input_2, &ext_channel_output_2, syncname1, syncname2, &expname1, &expname2] ()
      {
           QString expCommand1, expCommand2;
-          if(!ext_channel2.isEmpty())
+          if(!ext_channel_input_2.isEmpty() && !ext_channel_output_2.isEmpty())
           {
-               expCommand2 = balm + quote + "expansion " + ext_channel2 + " " + syncname2 + " " + expname2 + quote;
+               expCommand2 = balm + quote + "expansion " + ext_channel_input_2 + "," + ext_channel_output_2 + " " + syncname2 + " " + expname2 + quote;
+          }
+          else if( !ext_channel_input_2.isEmpty() )
+          {
+               expCommand2 = balm + quote + "expansion " + ext_channel_input_2 + " " + syncname2 + " " + expname2 + quote;
+          }
+          else if( !ext_channel_output_2.isEmpty() )
+          {
+               expCommand2 = balm + quote + "expansion " + ext_channel_output_2 + " " + syncname2 + " " + expname2 + quote;
           }
           else
           {
                expname2 = syncname2;
           }
-          if(!ext_channel1.isEmpty())
+          if( !ext_channel_input_1.isEmpty() && !ext_channel_output_1.isEmpty() )
           {
-               expCommand1 = balm + quote + "expansion " + ext_channel1 + " " + syncname1 + " " + expname1 + quote;
+               expCommand1 = balm + quote + "expansion " + ext_channel_input_1 + "," + ext_channel_output_2 + " " + syncname1 + " " + expname1 + quote;
+          }
+          else if( !ext_channel_input_1.isEmpty() )
+          {
+               expCommand1 = balm + quote + "expansion " + ext_channel_input_1 + " " + syncname1 + " " + expname1 + quote;
+          }
+          else if( !ext_channel_output_1.isEmpty() )
+          {
+               expCommand1 = balm + quote + "expansion " + ext_channel_input_1 + " " + syncname1 + " " + expname1 + quote;
           }
           else
           {
@@ -146,37 +161,82 @@ void Composition::formBalm2Script() const
           return expCommand1 + "\n" + expCommand2;
      };
 
-     auto getExtChannels = [ext_channel1, ext_channel2](){
+     auto getExtChannels = [ext_channel_input_1, ext_channel_output_1, ext_channel_input_2, ext_channel_output_2](){
           QString result;
-          if(!ext_channel1.isEmpty())
+          if(!ext_channel_input_1.isEmpty())
           {
-               result += ext_channel1;
+               result += ext_channel_input_1;
           }
-          if(!ext_channel2.isEmpty() && !result.isEmpty())
+          if( !ext_channel_input_2.isEmpty() )
           {
-               result += "," + ext_channel2;
+               if( !result.isEmpty() )
+               {
+                    result += "," + ext_channel_input_2;
+               }
+               else {
+                    result += ext_channel_input_2;
+               }
           }
-          else if (result.isEmpty())
+          if( !ext_channel_output_1.isEmpty() )
           {
-               result += ext_channel2;
+               if( !result.isEmpty() )
+               {
+                    result += "," + ext_channel_output_1;
+               }
+               else {
+                    result += ext_channel_output_1;
+               }
+          }
+          if( !ext_channel_output_2.isEmpty() )
+          {
+               if( !result.isEmpty() )
+               {
+                    result += "," + ext_channel_output_2;
+               }
+               else {
+                    result += ext_channel_output_2;
+               }
           }
           return result;
      };
 
-     auto getFormatedExtChannels = []( const QStringList& ext_chan1, const QStringList& ext_chan2 )
+     auto getFormatedExtChannels = []( const QStringList& ext_chan_input_1, const QStringList& ext_chan_input_2,
+                                       const QStringList& ext_chan_output_1, const QStringList& ext_chan_output_2 )
      {
           QString ext_chans;
-          if ( !ext_chan1.empty() && !ext_chan2.empty() )
+          if( !ext_chan_input_1.isEmpty() )
           {
-               ext_chans = ext_chan1.join("|") + "|" + ext_chan2.join("|");
+               ext_chans += ext_chan_input_1.join("|");
           }
-          else if ( ext_chan1.empty() )
+          if( !ext_chan_input_2.isEmpty() )
           {
-               ext_chans = ext_chan2.join("|");
+               if( !ext_chans.isEmpty() )
+               {
+                    ext_chans += "|" + ext_chan_input_2.join("|");
+               }
+               else {
+                    ext_chans += ext_chan_input_2.join("|");
+               }
           }
-          else
+          if( !ext_chan_output_1.isEmpty() )
           {
-               ext_chans = ext_chan1.join("|");
+               if( !ext_chans.isEmpty() )
+               {
+                    ext_chans += "|" + ext_chan_output_1.join("|");
+               }
+               else {
+                    ext_chans += ext_chan_output_1.join("|");
+               }
+          }
+          if( !ext_chan_output_2.isEmpty() )
+          {
+               if( !ext_chans.isEmpty() )
+               {
+                    ext_chans += "|" + ext_chan_output_2.join("|");
+               }
+               else {
+                    ext_chans += ext_chan_output_2.join("|");
+               }
           }
           return ext_chans;
      };
@@ -206,9 +266,11 @@ void Composition::formBalm2Script() const
      }
      QString restriction = balm + quote + "restriction " + getExtChannels() + " pro.aut" + " restr.aut" + quote;
      QString support_restr = balm + quote + "support " + oldNames.join(",") + ",E("+ QString::number(oldNames.size()) + ") restr.aut supp.aut" + quote;
-     QStringList ext_chan1 = ( ext_channel1 != "" ) ? ext_channel1.split(",") : QStringList();
-     QStringList ext_chan2 = ( ext_channel2 != "" ) ? ext_channel2.split(",") : QStringList();
-     QString ext_chans = getFormatedExtChannels(ext_chan1, ext_chan2);
+     QStringList ext_chan_input_1 = ( ext_channel_input_1 != "" ) ? ext_channel_input_1.split(",") : QStringList();
+     QStringList ext_chan_input_2 = ( ext_channel_input_2 != "" ) ? ext_channel_input_2.split(",") : QStringList();
+     QStringList ext_chan_output_1 = ( ext_channel_output_1 != "" ) ? ext_channel_output_1.split(",") : QStringList();
+     QStringList ext_chan_output_2 = ( ext_channel_output_2 != "" ) ? ext_channel_output_2.split(",") : QStringList();
+     QString ext_chans = getFormatedExtChannels( ext_chan_input_1, ext_chan_input_2, ext_chan_output_1, ext_chan_output_2 );
      QString write_para = balm + quote + "write_para_fsm " + oldNames.join("|") + "|E " + ext_chans + " supp.aut fsm.aut" + quote;
 
      QString pyEditScript = "python main.py " + polyname1 + " " + syncname1 + " " + polyname2 + " " + syncname2;
