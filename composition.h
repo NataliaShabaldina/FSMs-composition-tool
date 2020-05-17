@@ -19,6 +19,9 @@ private:
      fsmVector fsms_;
      linkVector links_;
 
+private:
+     QStringList getChannels( const QString& filePath ) const;
+
 public:
      Composition(fsmVector fsms = fsmVector(), linkVector links = linkVector());
 
