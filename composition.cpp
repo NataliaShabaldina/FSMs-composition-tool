@@ -139,7 +139,6 @@ void Composition::formBalm2Script() const
 
      const static QString balm("balm -c ");
      const static QString quote("\"");
-     const static QString streamRedirect(" &>> log.txt");
      QString polyname1 = addPrefix(fileName1, "poly");
      QString polyname2 = addPrefix(fileName2, "poly");
      QString syncname1 = addPrefix(polyname1, "sync");
@@ -271,26 +270,26 @@ void Composition::formBalm2Script() const
 
      QStringList oldNames = oldNamesInp + oldNamesOut;
 
-     QString read_para1 = balm + quote + "read_para_fsm " + channels1.join("|")  + " " + filePath1 + " " + polyname1 + quote + streamRedirect;
-     QString read_para2 = balm + quote + "read_para_fsm " + channels2.join("|")  + " " + polyname2 + quote + streamRedirect;
+     QString read_para1 = balm + quote + "read_para_fsm " + channels1.join("|")  + " " + filePath1 + " " + polyname1 + quote;
+     QString read_para2 = balm + quote + "read_para_fsm " + channels2.join("|")  + " " + polyname2 + quote;
      QString chan_sync = "error";
      QString product = "error";
      QString suportExp = "error";
      QString expansion = getExpansion();
      if( channels2.size() >= channels1.size() )
      {
-          chan_sync = balm + quote + "chan_sync " + channels2.join("|") + "|E " + channels1.join("|") + "|E  " + polyname2 + " " + polyname1 + " " + syncname2 + " " + syncname1 + quote + streamRedirect;
+          chan_sync = balm + quote + "chan_sync " + channels2.join("|") + "|E " + channels1.join("|") + "|E  " + polyname2 + " " + polyname1 + " " + syncname2 + " " + syncname1 + quote;
           auto alphabetSize = channels2.size();
-          suportExp = balm + quote + "support " + channels2.join(",") + ",E(" + QString::number(alphabetSize) + ") " + expname1 + " " + supExtName1 + quote + streamRedirect;
-          product = balm + quote + "product " + expname2 + " " + /*expname1*/ supExtName1 + " pro.aut" + quote + streamRedirect;
+          suportExp = balm + quote + "support " + channels2.join(",") + ",E(" + QString::number(alphabetSize) + ") " + expname1 + " " + supExtName1 + quote;
+          product = balm + quote + "product " + expname2 + " " + /*expname1*/ supExtName1 + " pro.aut" + quote;
 
      }
      else
      {
-          chan_sync = balm + quote + "chan_sync " + channels1.join("|") + "|E " + channels1.join("|") + "|E  " + polyname1 + " " + polyname2 + " " + syncname1 + " " + syncname2 + quote + streamRedirect;
+          chan_sync = balm + quote + "chan_sync " + channels1.join("|") + "|E " + channels1.join("|") + "|E  " + polyname1 + " " + polyname2 + " " + syncname1 + " " + syncname2 + quote;
           auto alphabetSize = channels1.size();
-          suportExp = balm + quote + "support " + channels1.join(",") + ",E(" + QString::number( alphabetSize ) + ") " + expname2 + " " + supExtName2 + quote + streamRedirect;
-          product = balm + quote + "product " + expname1 + " " + /*expname2*/supExtName2 + " pro.aut" + quote + streamRedirect;
+          suportExp = balm + quote + "support " + channels1.join(",") + ",E(" + QString::number( alphabetSize ) + ") " + expname2 + " " + supExtName2 + quote;
+          product = balm + quote + "product " + expname1 + " " + /*expname2*/supExtName2 + " pro.aut" + quote;
      }
      QString restriction = balm + quote + "restriction " + getExtChannels() + " pro.aut" + " restr.aut" + quote;
      QString support_restr = balm + quote + "support " + oldNames.join(",") + ",E("+ QString::number(oldNames.size()) + ") restr.aut supp.aut" + quote;
