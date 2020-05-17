@@ -33,6 +33,8 @@ QStringList Composition::getChannels(const QString &filePath) const
      in.readLine();
      auto inputsString = in.readLine();
      inputsString.remove(0, 8);
+     file.close();
+
      return inputsString.split(" ");
 }
 
@@ -271,14 +273,14 @@ void Composition::formBalm2Script() const
      QStringList oldNames = oldNamesInp + oldNamesOut;
 
      QString read_para1 = balm + quote + "read_para_fsm " + channels1.join("|")  + " " + filePath1 + " " + polyname1 + quote;
-     QString read_para2 = balm + quote + "read_para_fsm " + channels2.join("|")  + " " + polyname2 + quote;
+     QString read_para2 = balm + quote + "read_para_fsm " + channels2.join("|")  + " " + filePath2 + " " + polyname2 + quote;
      QString chan_sync = "error";
      QString product = "error";
      QString suportExp = "error";
      QString expansion = getExpansion();
      if( channels2.size() >= channels1.size() )
      {
-          chan_sync = balm + quote + "chan_sync " + channels2.join("|") + "|E " + channels1.join("|") + "|E  " + polyname2 + " " + polyname1 + " " + syncname2 + " " + syncname1 + quote;
+          chan_sync = balm + quote + "chan_sync " + channels2.join("|") + "|E " + channels1.join("|") + "|E " + polyname2 + " " + polyname1 + " " + syncname2 + " " + syncname1 + quote;
           auto alphabetSize = channels2.size();
           suportExp = balm + quote + "support " + channels2.join(",") + ",E(" + QString::number(alphabetSize) + ") " + expname1 + " " + supExtName1 + quote;
           product = balm + quote + "product " + expname2 + " " + /*expname1*/ supExtName1 + " pro.aut" + quote;
@@ -286,7 +288,7 @@ void Composition::formBalm2Script() const
      }
      else
      {
-          chan_sync = balm + quote + "chan_sync " + channels1.join("|") + "|E " + channels1.join("|") + "|E  " + polyname1 + " " + polyname2 + " " + syncname1 + " " + syncname2 + quote;
+          chan_sync = balm + quote + "chan_sync " + channels1.join("|") + "|E " + channels2.join("|") + "|E " + polyname1 + " " + polyname2 + " " + syncname1 + " " + syncname2 + quote;
           auto alphabetSize = channels1.size();
           suportExp = balm + quote + "support " + channels1.join(",") + ",E(" + QString::number( alphabetSize ) + ") " + expname2 + " " + supExtName2 + quote;
           product = balm + quote + "product " + expname1 + " " + /*expname2*/supExtName2 + " pro.aut" + quote;
