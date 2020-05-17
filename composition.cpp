@@ -293,7 +293,7 @@ void Composition::formBalm2Script() const
           suportExp = balm + quote + "support " + channels1.join(",") + ",E(" + QString::number( alphabetSize ) + ") " + expname2 + " " + supExtName2 + quote;
           product = balm + quote + "product " + expname1 + " " + /*expname2*/supExtName2 + " pro.aut" + quote;
      }
-     QString restriction = balm + quote + "restriction " + getExtChannels() + " pro.aut" + " restr.aut" + quote;
+     QString restriction = balm + quote + "restriction " + getExtChannels() + " prostar.aut" + " restr.aut" + quote;
      QString support_restr = balm + quote + "support " + oldNames.join(",") + ",E("+ QString::number(oldNames.size()) + ") restr.aut supp.aut" + quote;
      QStringList ext_chan_input_1 = ( ext_channel_input_1 != "" ) ? ext_channel_input_1.split(",") : QStringList();
      QStringList ext_chan_input_2 = ( ext_channel_input_2 != "" ) ? ext_channel_input_2.split(",") : QStringList();
@@ -305,9 +305,10 @@ void Composition::formBalm2Script() const
      QString pyEditScript = "python3 main.py " + polyname1 + " " + syncname1 + " " + polyname2 + " " + syncname2;
      QString editedScriptStart = "sh edited_script.sh";
      QString scriptStopper = "exit 25";
+     QString starProduct = balm + quote + "product pro.aut star.aut prostar.aut";
 
      toScript << read_para1 << "\n" << read_para2 << "\n" << chan_sync << "\n" << pyEditScript << "\n" << editedScriptStart << "\n" <<
-                 scriptStopper << "\n" << expansion << "\n" << suportExp << "\n" << product << "\n" << restriction << "\n" <<
+                 scriptStopper << "\n" << expansion << "\n" << suportExp << "\n" << product << "\n" << starProduct << "\n" << restriction << "\n" <<
                  support_restr << "\n" << write_para;
 
      script.close();
