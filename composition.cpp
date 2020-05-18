@@ -305,7 +305,7 @@ void Composition::formBalm2Script() const
      QString pyEditScript = "python3 main.py " + polyname1 + " " + syncname1 + " " + polyname2 + " " + syncname2;
      QString editedScriptStart = "sh edited_script.sh";
      QString scriptStopper = "exit 25";
-     QString starProduct = balm + quote + "product pro.aut star.aut prostar.aut";
+     QString starProduct = balm + quote + "product pro.aut star.aut prostar.aut" + quote;
 
      toScript << read_para1 << "\n" << read_para2 << "\n" << chan_sync << "\n" << pyEditScript << "\n" << editedScriptStart << "\n" <<
                  scriptStopper << "\n" << expansion << "\n" << suportExp << "\n" << product << "\n" << starProduct << "\n" << restriction << "\n" <<
