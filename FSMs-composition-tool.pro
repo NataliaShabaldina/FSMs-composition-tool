@@ -55,10 +55,19 @@ HEADERS += \
 FORMS += \
         mainwindow.ui
 
+# Copy main.py script to build folder
+copydata.commands = $(COPY_DIR) $$PWD/main.py $$OUT_PWD
+first.depends = $(first) copydata
+export(first.depends)
+export(copydata.commands)
+QMAKE_EXTRA_TARGETS += first copydata
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+
 
 RESOURCES += \
     icons.qrc \
