@@ -1,8 +1,10 @@
 #include "composition.h"
 
 #include <QXmlStreamWriter>
-#include <QtXmlPatterns>
+//#include <QtXmlPatterns>
 #include <QMessageBox>
+#include <QDebug>
+#include <QTextStream>
 
 
 Composition::Composition(fsmVector fsms, linkVector links)
