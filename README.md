@@ -25,6 +25,7 @@ All files with FSM description have to be in .aut format.
 # The easiest and recommended way to build application:
 1. Install BALM-II from deb-package
    - https://ultraespresso.di.univr.it/balmII - deb package and instruction
+   - sudo dpkg -i /path/to/deb/file - command for deb package installing
 2. Install Qt Creator 
    - One of the instructions: https://www.osradar.com/install-qtcreator-on-ubuntu-20-04-18-04/
 3. Install python3 
