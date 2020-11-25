@@ -27,7 +27,7 @@ All files with FSM description have to be in .aut format.
    - https://ultraespresso.di.univr.it/balmII - deb package and instruction
    - sudo dpkg -i /path/to/deb/file - command for deb package installing
 2. Install Qt Creator 
-   - One of the instructions: https://www.osradar.com/install-qtcreator-on-ubuntu-20-04-18-04/
+   - One of the instructions: https://www.osradar.com/install-qtcreator-on-ubuntu-20-04-18-04/ (follow all instructions)
 3. Install python3 
    - sudo apt install python3
 4. Install git
