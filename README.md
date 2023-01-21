@@ -45,18 +45,22 @@ Composition object should cover both FSMs. Inner channels should be fully inside
 ![image](https://user-images.githubusercontent.com/36838141/213866937-1a3f47b5-17cc-4cf5-9d00-c7aa3297accb.png)
 
 To attach .aut file to corresponding FSM-object right click on FSM-object and choose "Attach file", then choose file.
+
 ![image](https://user-images.githubusercontent.com/36838141/213866949-f2d5c445-6a45-4548-9cf3-f758092b1419.png)
 
 To build composition right click on composition-object and press "Form".
+
 ![image](https://user-images.githubusercontent.com/36838141/213866959-7c28e7bc-3a57-4959-a1e4-5d3be19263f8.png)
 
 After that files will appear in project folder and output information will be printed in console.
+
 ![image](https://user-images.githubusercontent.com/36838141/213866972-ab0ef43b-7e52-420d-9d2e-8f675606d961.png)
 
 If there are no errors, fsm.aut file should be in project folder. This file contains composition.
 
 # Test example
 There are files for launching test example in "test_example" folder (there is no need to copy them into the build folder, you can just atach them from whereever you want). To build it you need to form on scene exact the same composition as on picture below and attach .aut files to corresponding FSM-objects.
+
 ![image](https://user-images.githubusercontent.com/36838141/213867485-3257386c-b5d3-4112-a25d-4a1eeb65d9d9.png)
 
 
