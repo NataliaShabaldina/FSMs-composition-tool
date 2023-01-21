@@ -33,10 +33,11 @@ As long as Qt and Python are cross platform, application can be run on any platf
 1. Move to directory with built project (e.g. cd build-FSMs-composition-tool-DesktopRelease)
 2. Launch application: ./FSMs-composition-tool
 
-# control
+# Interface
 - Button FSM adds state machine-object on scene.
 - Button Link adds channel-object on scene.
 - Button Composition adds composition-object on scene.
+
 Every element can be moved. Names of FSMs and Links can be changed.
 Make sure links are in connect with FSMs (there is no space between them) before building composition.
 Channels names should be equal to corresponding names from .aut files.
